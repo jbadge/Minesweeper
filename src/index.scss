@@ -10,6 +10,7 @@
   --tangerine: #f99d1b;
   --header-font-size: 3rem;
   --square-background-color: silver;
+  --header-font-size: 2rem;
 
   font: 16px / 1 sans-serif;
 }
@@ -24,20 +25,20 @@ body {
 }
 
 h1 {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  font-size: var(--header-font-size);
+  padding: var(--header-font-size);
+  text-align: center;
 }
 
 h2 {
-  font-size: 16px;
-  display: flex;
-  justify-content: center;
+  height: 25px;
+  overflow: hidden;
+  font-size: 12px;
+  text-align: center;
 }
 
 h3 {
-  display: flex;
-  justify-content: center;
+  text-align: center;
   margin: 2rem;
 }
 
@@ -45,25 +46,131 @@ main {
   display: flex;
   align-items: center;
   justify-content: center;
+  border: 10px darkgrey;
 
-  section.difficulty-0 {
-    display: grid;
-    grid-template: repeat(8, minmax(2.5rem, 1fr)) / repeat(
-        8,
-        minmax(2.5rem, 1fr)
-      );
-    justify-self: center;
-    align-self: center;
-  }
-
-  button {
-    background-color: var(--square-background-color);
-    display: flex;
-    align-self: center;
-    align-items: center;
-    justify-self: center;
-    justify-content: center;
-    min-height: 3rem;
-    min-width: 3rem;
+  section {
+    &.game-over button {
+      cursor: not-allowed;
+      opacity: 0.5;
+    }
   }
 }
+
+#difficulty-0 {
+  display: grid;
+  grid-template: repeat(8, minmax(2rem, 1fr)) / repeat(8, minmax(2rem, 1fr));
+  justify-self: center;
+  align-self: center;
+}
+
+#difficulty-1 {
+  display: grid;
+  grid-template: repeat(16, minmax(2rem, 1fr)) / repeat(16, minmax(2rem, 1fr));
+  justify-self: center;
+  align-self: center;
+}
+
+#difficulty-2 {
+  display: grid;
+  grid-template: repeat(24, minmax(2rem, 1fr)) / repeat(24, minmax(2rem, 1fr));
+  justify-self: center;
+  align-self: center;
+}
+
+// .pressed {
+//   // border-left: solid 1px #7b7b7b;
+//   // border-top: solid 1px #7b7b7b;
+//   background-color: rgb(230, 230, 230);
+//   border-bottom: none;
+//   border-right: none;
+// }
+
+button {
+  background-color: var(--square-background-color);
+  box-shadow: 1px 1px 2px rgb(0, 0, 0);
+
+  :active {
+    background-color: #00f;
+  }
+
+  &.revealed {
+    // border-left: solid 1px #7b7b7b;
+    // border-top: solid 1px #7b7b7b;
+    background-color: rgb(230, 230, 230);
+    border-bottom: none;
+    border-right: none;
+    border: 1px whitesmoke;
+  }
+
+  &.taken {
+    cursor: not-allowed;
+  }
+
+  &.small {
+    font-size: 4rem;
+  }
+
+  &.not-allowed-click {
+    background-color: red;
+  }
+
+  // &.pressed {
+
+  // }
+
+  // &.nr {
+  //   border-left: solid 1px #7b7b7b;
+  //   border-top: solid 1px #7b7b7b;
+  //   border-bottom: none;
+  //   border-right: none;
+  // }
+
+  // &.nr {
+  // border-style: inset;
+  // }
+}
+.nr1 {
+  color: #00f;
+}
+
+.nr2 {
+  color: #007b00;
+}
+
+.nr3 {
+  color: red;
+}
+
+.flag::before {
+  content: url('https://cardgames.io/minesweeper/images/flag.svg');
+}
+
+.bomb::before {
+  content: url('https://cardgames.io/minesweeper/images/mine.svg');
+}
+
+.question::before {
+  content: url('https://cardgames.io/minesweeper/images/questionmark.svg');
+}
+
+// main {
+//   margin: 0 auto;
+//   padding: 0 2rem;
+//   max-width: 20rem;
+
+//   section#difficulty-0 {
+//     display: grid;
+//     grid-template: repeat(8, minmax(2.5rem, 1fr)) / repeat(
+//         8,
+//         minmax(2.5rem, 1fr)
+//       );
+//   }
+
+//   button {
+//     background-color: var(--square-background-color);
+//   }
+// }
+
+// div {
+//   width: 100%;
+// }
