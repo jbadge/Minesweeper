@@ -23,8 +23,30 @@ export function Cell({
   // event: React.MouseEvent, row: number, col: number)
   // function handleLeftClick() {}
   // function handleRightClick() {}
-  function handleClick(event: React.MouseEvent, row: number, col: number) {
-    handleClickCell(event, row, col)
+
+  async function handleClick(
+    event: React.MouseEvent,
+    row: number,
+    col: number
+  ) {
+    const clickSnapshot = event.currentTarget
+
+    await handleClickCell(event, row, col)
+
+    isBomb(clickSnapshot)
+  }
+
+  function isBomb(target: any) {
+    if (target.firstElementChild === null) {
+      return
+    }
+    if (target.firstElementChild.className === 'bomb') {
+      // console.log(target.firstElementChild.className)
+      target.firstElementChild.classList.add('explosion')
+      target.style.backgroundColor = '--class-item-bg'
+      // const x = document.querySelectorAll('span.bomb')
+      // console.log(x)
+    }
   }
 
   function transformCell(value: string | number) {

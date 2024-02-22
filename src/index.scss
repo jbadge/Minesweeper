@@ -11,7 +11,10 @@
   --header-font-size: 3rem;
   --square-background-color: silver;
   --header-font-size: 2rem;
-
+  @font-face {
+    font-family: 'Minesweeper';
+    src: url('https://fontstruct.com/fontstructions/show/1501665');
+  }
   font: 16px / 1 sans-serif;
 }
 
@@ -51,14 +54,14 @@ main {
   section {
     &.game-over button {
       cursor: not-allowed;
-      opacity: 0.5;
+      // opacity: 0.5;
     }
   }
 }
 
 #difficulty-0 {
   display: grid;
-  grid-template: repeat(8, minmax(2rem, 1fr)) / repeat(8, minmax(2rem, 1fr));
+  grid-template: repeat(8, minmax(2.5rem, 1fr)) / repeat(8, minmax(2.5rem, 1fr));
   justify-self: center;
   align-self: center;
 }
@@ -76,14 +79,6 @@ main {
   justify-self: center;
   align-self: center;
 }
-
-// .pressed {
-//   // border-left: solid 1px #7b7b7b;
-//   // border-top: solid 1px #7b7b7b;
-//   background-color: rgb(230, 230, 230);
-//   border-bottom: none;
-//   border-right: none;
-// }
 
 button {
   background-color: var(--square-background-color);
@@ -105,47 +100,37 @@ button {
   &.taken {
     cursor: not-allowed;
   }
-
-  &.small {
-    font-size: 4rem;
-  }
-
-  &.not-allowed-click {
-    background-color: red;
-  }
-
-  // &.pressed {
-
-  // }
-
-  // &.nr {
-  //   border-left: solid 1px #7b7b7b;
-  //   border-top: solid 1px #7b7b7b;
-  //   border-bottom: none;
-  //   border-right: none;
-  // }
-
-  // &.nr {
-  // border-style: inset;
-  // }
 }
+
 .nr1 {
+  font-family: Minesweeper;
+  font-size: 200%;
   color: #00f;
 }
 
 .nr2 {
   color: #007b00;
+  font-family: Minesweeper;
+  font-size: 200%;
 }
 
 .nr3 {
   color: red;
+  font-family: Minesweeper;
+  font-size: 200%;
+}
+
+.explosion {
+  background-color: red;
 }
 
 .flag::before {
+  position: absolute;
+  right: 100%;
   content: url('https://cardgames.io/minesweeper/images/flag.svg');
 }
 
-.bomb::before {
+.bomb {
   content: url('https://cardgames.io/minesweeper/images/mine.svg');
 }
 
