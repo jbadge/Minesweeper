@@ -52,17 +52,37 @@ export function App() {
     col: number
   ) {
     event.preventDefault()
+    // console.log(event.target)
+    const clickSnapshot = event.currentTarget
+
+    console.log('running handleClickCell in App.tsx--className is:')
+    console.log(clickSnapshot.firstElementChild?.className)
+    // console.log(event.nativeEvent.button)
+    // const revealedButton = event.currentTarget
+    // console.log(event.currentTarget.setAttribute('disabled', 'true'))
 
     if (
       game.id === null ||
       game.state === 'won' ||
       game.state === 'lost' ||
-      game.board[row][col] !== ' '
+      // event.nativeEvent.button === 'flag'
+      clickSnapshot.firstElementChild?.className === '' ||
+      //.classList.contains('flag')
+      // TAKE CARE OF THIS, needs logic
+      (game.board[row][col] !== ' ' && game.board[row][col] !== 'F')
     ) {
       return
     }
+    console.log('Got past the guard clauses--className is:')
+    console.log(clickSnapshot.firstElementChild?.className)
+    // if (clickSnapshot.firstElementChild?.classList.contains('flag') === true) {
+    //   console.log('HELP!')
+    //   clickSnapshot.setAttribute('disabled', 'true')
+    // }
 
-    if (event.nativeEvent.button === 0) {
+    if (event.nativeEvent.button === 0 && game.board[row][col] !== 'F') {
+      console.log('Inside left-click')
+
       const url = `https://minesweeper-api.herokuapp.com/games/${game.id}/check`
 
       const body = { row, col }
@@ -76,8 +96,20 @@ export function App() {
       if (response.ok) {
         const newGameState = (await response.json()) as Game
         setGame(newGameState)
+
+        // // Trying to disable revealed buttons
+        // console.log(revealedButton.classList.contains('revealed'))
+        // if (revealedButton.classList.contains('revealed')) {
+        //   revealedButton.setAttribute('disabled', 'true')
+        // }
+        console.log(
+          'Left-click and after setGame--event.target is and className is:'
+        )
+        console.log(clickSnapshot)
+        console.log(clickSnapshot.firstElementChild?.className)
       }
     } else if (event.nativeEvent.button === 2) {
+      console.log('Inside right-click')
       const url = `https://minesweeper-api.herokuapp.com/games/${game.id}/flag`
       const body = { row, col }
 
@@ -90,22 +122,16 @@ export function App() {
       if (response.ok) {
         const newGameState = (await response.json()) as Game
         setGame(newGameState)
+        console.log(
+          'Right-click and after setGame--event.target is and className is:'
+        )
+        console.log(clickSnapshot)
+        console.log(clickSnapshot.firstElementChild?.className)
       }
     }
   }
 
   async function handleNewGame(newGameDifficulty: Difficulty) {
-    // target.firstElementChild.removeAttribute('style')
-    // target.firstElementChild.removeAttribute('style')
-    // console.log(document.querySelector('style'))
-    // document.querySelector('style')?.textContent?.includes('red')
-    // document.querySelector('style')?.removeAttribute('style')
-    // document.querySelector('bomb')?.removeAttribute('red')
-    // const x = document.querySelectorAll('span.bomb')
-    // console.log(x)
-    // document.querySelector('span.bomb')?.removeAttribute('style')
-    // console.log(x)
-
     const diff = { difficulty: newGameDifficulty }
 
     const response = await fetch(
@@ -138,7 +164,9 @@ export function App() {
     }
   }
 
+  // think this and checkState are competing
   function isGameOver() {
+    //inside isGameOver
     if (game.state === 'won' || game.state === 'lost') {
       return false
     }
@@ -162,17 +190,24 @@ export function App() {
                 cell={game.board[rowIndex][colIndex]}
                 cellRowIndex={rowIndex}
                 cellColIndex={colIndex}
+                cellState={game.state}
                 handleClickCell={handleClickCell}
               />
             ))
           )}
         </section>
       </main>
-      <h3>
-        <button onClick={() => handleNewGame(0)}>Easy</button>
-        <button onClick={() => handleNewGame(1)}>Medium</button>
-        <button onClick={() => handleNewGame(2)}>Hard</button>
-      </h3>
+      <nav>
+        <button onClick={() => handleNewGame(0)}>
+          <h3>Easy</h3>
+        </button>
+        <button onClick={() => handleNewGame(1)}>
+          <h3>Medium</h3>
+        </button>
+        <button onClick={() => handleNewGame(2)}>
+          <h3>Hard</h3>
+        </button>
+      </nav>
     </div>
   )
 }

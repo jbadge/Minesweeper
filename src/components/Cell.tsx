@@ -4,6 +4,7 @@ type CellProps = {
   cell: string
   cellRowIndex: number
   cellColIndex: number
+  cellState: string | null
   // leftClickMove: () => void
   // rightClickMove: () => void
   // handleClickCell: (event: React.MouseEvent, row: number, col: number) => void
@@ -18,6 +19,7 @@ export function Cell({
   cell,
   cellRowIndex,
   cellColIndex,
+  cellState,
   handleClickCell,
 }: CellProps) {
   // event: React.MouseEvent, row: number, col: number)
@@ -30,28 +32,64 @@ export function Cell({
     col: number
   ) {
     const clickSnapshot = event.currentTarget
+    console.log('handleClick in Cell.tsx--event.target is and className is:')
+    console.log(clickSnapshot)
+    console.log(clickSnapshot.firstElementChild?.className)
+    // console.log(clickSnapshot.classList.contains('revealed'))
+    // if (clickSnapshot.classList.contains('revealed')) {
+    //   clickSnapshot.setAttribute('disabled', 'true')
+    // }
 
     await handleClickCell(event, row, col)
 
+    isFlag(event, clickSnapshot)
     isBomb(clickSnapshot)
+  }
+  function isFlag(event: React.MouseEvent, target: any) {
+    if (target.firstElementChild === null || event.nativeEvent.button === 0) {
+      return
+    }
+    if (event.nativeEvent.button === 2) {
+      // target.firstElementChild.classList.contains('flag') &&
+
+      target.firstElementChild.classList.toggle('flag')
+      return
+    }
   }
 
   function isBomb(target: any) {
     if (target.firstElementChild === null) {
       return
     }
+
     if (target.firstElementChild.className === 'bomb') {
-      // console.log(target.firstElementChild.className)
       target.firstElementChild.classList.add('explosion')
-      target.style.backgroundColor = '--class-item-bg'
-      // const x = document.querySelectorAll('span.bomb')
-      // console.log(x)
     }
   }
 
+  // needs mines displayed.
+  // needs difficulty
+  // needs counter of moves
+
+  console.log(clickSnapshot.firstElementChild?.className)
+
+  // This function goes off twice, in beginning, and at the end.
+  // Is it once bc of button and once bc Cell in App "initializing" the button?
   function transformCell(value: string | number) {
-    if (value === 'F') {
-      return <span className="flag" />
+    // I believe this is where the disable should happen for buttons
+    // Trying to disable revealed buttons
+    // if (cellState !== null) {
+    if (cellState === 'win' || cellState === 'lost') {
+      if (value === '@') {
+        return <span className="flag" />
+      }
+      if (value === 'F') {
+        return <span className="false_bomb" />
+      }
+    } else {
+      if (value === 'F') {
+        return <span className="" />
+      }
     }
     if (value === '*') {
       return <span className="bomb" />
@@ -60,7 +98,7 @@ export function Cell({
       return ''
     }
     if (value === 1) {
-      return <span className="nr1">1</span>
+      return <div className="nr1">1</div>
     }
     if (value === 2) {
       return <span className="nr2">2</span>
@@ -84,6 +122,7 @@ export function Cell({
       return <span className="nr8">8</span>
     }
     return value
+    // }
   }
 
   return (
@@ -91,7 +130,9 @@ export function Cell({
       key={cellColIndex}
       onClick={(e) => handleClick(e, cellRowIndex, cellColIndex)}
       onContextMenu={(e) => handleClick(e, cellRowIndex, cellColIndex)}
-      className={cell === ' ' || cell === 'F' ? undefined : 'revealed'}
+      className={
+        cell === ' ' || cell === 'F' || cell === '@' ? undefined : 'revealed'
+      }
     >
       {transformCell(cell)}
     </button>
