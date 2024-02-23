@@ -71,7 +71,7 @@ export function Cell({
   // needs difficulty
   // needs counter of moves
 
-  console.log(clickSnapshot.firstElementChild?.className)
+  // console.log(clickSnapshot.firstElementChild?.className)
 
   // This function goes off twice, in beginning, and at the end.
   // Is it once bc of button and once bc Cell in App "initializing" the button?
