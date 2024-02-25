@@ -5,9 +5,6 @@ type CellProps = {
   cellRowIndex: number
   cellColIndex: number
   cellState: string | null
-  // leftClickMove: () => void
-  // rightClickMove: () => void
-  // handleClickCell: (event: React.MouseEvent, row: number, col: number) => void
   handleClickCell: (
     _event: React.MouseEvent,
     _row: number,
@@ -22,36 +19,24 @@ export function Cell({
   cellState,
   handleClickCell,
 }: CellProps) {
-  // event: React.MouseEvent, row: number, col: number)
-  // function handleLeftClick() {}
-  // function handleRightClick() {}
-
   async function handleClick(
     event: React.MouseEvent,
     row: number,
     col: number
   ) {
     const clickSnapshot = event.currentTarget
-    console.log('handleClick in Cell.tsx--event.target is and className is:')
-    console.log(clickSnapshot)
-    console.log(clickSnapshot.firstElementChild?.className)
-    // console.log(clickSnapshot.classList.contains('revealed'))
-    // if (clickSnapshot.classList.contains('revealed')) {
-    //   clickSnapshot.setAttribute('disabled', 'true')
-    // }
 
     await handleClickCell(event, row, col)
 
     isFlag(event, clickSnapshot)
     isBomb(clickSnapshot)
   }
+
   function isFlag(event: React.MouseEvent, target: any) {
     if (target.firstElementChild === null || event.nativeEvent.button === 0) {
       return
     }
     if (event.nativeEvent.button === 2) {
-      // target.firstElementChild.classList.contains('flag') &&
-
       target.firstElementChild.classList.toggle('flag')
       return
     }
@@ -62,29 +47,22 @@ export function Cell({
       return
     }
 
-    if (target.firstElementChild.className === 'bomb') {
+    if (target.firstElementChild.className === 'mine') {
       target.firstElementChild.classList.add('explosion')
     }
   }
 
-  // needs mines displayed.
-  // needs difficulty
-  // needs counter of moves
+  // Add counter of moves
+  // Need to fix that you can put flag on number
 
-  // console.log(clickSnapshot.firstElementChild?.className)
-
-  // This function goes off twice, in beginning, and at the end.
-  // Is it once bc of button and once bc Cell in App "initializing" the button?
   function transformCell(value: string | number) {
-    // I believe this is where the disable should happen for buttons
-    // Trying to disable revealed buttons
-    // if (cellState !== null) {
+    // ?? if (cellState !== null) {
     if (cellState === 'win' || cellState === 'lost') {
       if (value === '@') {
         return <span className="flag" />
       }
       if (value === 'F') {
-        return <span className="false_bomb" />
+        return <span className="not-a-mine" />
       }
     } else {
       if (value === 'F') {
@@ -92,37 +70,36 @@ export function Cell({
       }
     }
     if (value === '*') {
-      return <span className="bomb" />
+      return <span className="mine" />
     }
     if (value === '_') {
       return ''
     }
     if (value === 1) {
-      return <div className="nr1">1</div>
+      return <div className="number num1">1</div>
     }
     if (value === 2) {
-      return <span className="nr2">2</span>
+      return <span className="number num2">2</span>
     }
     if (value === 3) {
-      return <span className="nr3">3</span>
+      return <span className="number num3">3</span>
     }
     if (value === 4) {
-      return <span className="nr4">4</span>
+      return <span className="number num4">4</span>
     }
     if (value === 5) {
-      return <span className="nr5">5</span>
+      return <span className="number num5">5</span>
     }
     if (value === 6) {
-      return <span className="nr6">6</span>
+      return <span className="number num6">6</span>
     }
     if (value === 7) {
-      return <span className="nr7">7</span>
+      return <span className="number num7">7</span>
     }
     if (value === 8) {
-      return <span className="nr8">8</span>
+      return <span className="number num8">8</span>
     }
     return value
-    // }
   }
 
   return (

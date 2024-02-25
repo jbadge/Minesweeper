@@ -9,12 +9,9 @@
   --sun: #d5562b;
   --tangerine: #f99d1b;
   --header-font-size: 3rem;
-  --square-background-color: silver;
   --header-font-size: 2rem;
-  @font-face {
-    font-family: 'Minesweeper';
-    src: url('https://fontstruct.com/fontstructions/show/1501665');
-  }
+  // --square-background-color: #bdbdbd;
+
   font: 16px / 1 sans-serif;
 }
 
@@ -22,42 +19,42 @@ html {
   height: 100%;
 }
 
+* {
+  margin: 0px;
+  padding: 0px;
+}
+
 body {
   margin: 0;
   min-height: 100%;
+  background-color: #629ac4;
 }
 
 h1 {
   font-size: var(--header-font-size);
-  padding: var(--header-font-size);
+  padding: 1rem;
   text-align: center;
+  margin-top: 10px;
+  margin-bottom: 0px;
 }
 
 h2 {
   height: 25px;
-  overflow: hidden;
   font-size: 12px;
   text-align: center;
 }
 
 h3 {
+  font-size: 1rem;
   text-align: center;
-  margin: 0;
-}
-
-nav {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  padding: 2rem;
-  gap: 1rem;
-  margin: 0 auto;
+  margin: 5px;
 }
 
 main {
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-direction: column;
   border: 10px darkgrey;
 
   section {
@@ -68,60 +65,181 @@ main {
 }
 
 #difficulty-0 {
+  background-color: #bdbdbd;
+  padding: 7px;
+  padding-top: 14px;
+  border-bottom: solid 3px #707070;
+  border-right: solid 3px #707070;
+  border-top: solid 3px #fff;
+  border-left: solid 3px #fff;
+}
+
+#difficulty-1 {
+  background: #bdbdbd;
+  padding: 7px;
+  padding-top: 14px;
+  border-bottom: solid 3px #707070;
+  border-right: solid 3px #707070;
+  border-top: solid 3px #fff;
+  border-left: solid 3px #fff;
+}
+
+#difficulty-2 {
+  background: #bdbdbd;
+  padding: 7px;
+  padding-top: 14px;
+  border-bottom: solid 3px #707070;
+  border-right: solid 3px #707070;
+  border-top: solid 3px #fff;
+  border-left: solid 3px #fff;
+}
+
+#game-board-0 {
   display: grid;
   grid-template: repeat(8, minmax(2.5rem, 1fr)) / repeat(8, minmax(2.5rem, 1fr));
   justify-self: center;
   align-self: center;
+  border-bottom: solid 3px #fff;
+  border-right: solid 3px #fff;
+  border-top: solid 3px #707070;
+  border-left: solid 3px #707070;
+  background-color: #bdbdbd;
+  border-radius: 3px;
 }
 
-#difficulty-1 {
+#game-board-1 {
   display: grid;
   grid-template: repeat(16, minmax(2rem, 1fr)) / repeat(16, minmax(2rem, 1fr));
   justify-self: center;
   align-self: center;
+  border-bottom: solid 3px #fff;
+  border-right: solid 3px #fff;
+  border-top: solid 3px #707070;
+  border-left: solid 3px #707070;
+  padding: 7px;
+  background-color: #bdbdbd;
+  border-radius: 3px;
 }
 
-#difficulty-2 {
+#game-board-2 {
   display: grid;
   grid-template: repeat(24, minmax(2rem, 1fr)) / repeat(24, minmax(2rem, 1fr));
   justify-self: center;
   align-self: center;
+  border-bottom: solid 3px #fff;
+  border-right: solid 3px #fff;
+  border-top: solid 3px #707070;
+  border-left: solid 3px #707070;
+  padding: 7px;
+  background-color: #bdbdbd;
+  border-radius: 3px;
+}
+
+#mine-info-board {
+  border-bottom: solid 3px #fff;
+  border-right: solid 3px #fff;
+  border-top: solid 3px #707070;
+  border-left: solid 3px #707070;
+  margin-bottom: 10px;
+  border-radius: 2px;
+  padding: 6px;
+  background-color: #bdbdbd;
+}
+
+#mine-info-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.mine-text {
+  font-size: 1.2rem;
+}
+
+#number-of-mines {
+  position: relative;
+  background-color: #bdbdbd;
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+  border-radius: 2px;
+  padding: 6px;
+  margin: 0px 3px;
+  align-self: center;
+}
+
+#difficulty-selection-board {
+  border-bottom: solid 3px #fff;
+  border-right: solid 3px #fff;
+  border-top: solid 3px #707070;
+  border-left: solid 3px #707070;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  border-radius: 2px;
+  background-color: #bdbdbd;
+}
+
+.difficulty-selection-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 button {
-  background-color: var(--square-background-color);
-  box-shadow: 1px 1px 2px rgb(0, 0, 0);
+  background-color: #bdbdbd;
   display: flex;
   justify-content: center;
   align-items: center;
+  border-left: solid 3px #fff;
+  border-top: solid 3px #fff;
+  border-bottom: solid 3px #7b7b7b;
+  border-right: solid 3px #7b7b7b;
+  line-height: 16px;
 
   &.revealed {
     border-left: solid 1px #7b7b7b;
     border-top: solid 1px #7b7b7b;
-    background-color: rgb(230, 230, 230);
-    border-bottom: none;
     border-right: none;
-    border: 1px whitesmoke;
+    border-bottom: none;
     cursor: not-allowed;
   }
 }
 
-.nr1 {
-  font-family: Minesweeper;
-  font-size: 200%;
+.difficulty-button {
+  width: 100%;
+}
+
+.number {
+  font-size: 2rem;
+  font-weight: 700;
+  font-family: 'Arial Black', Arial, sans-serif;
+}
+
+.num1 {
   color: #00f;
 }
 
-.nr2 {
+.num2 {
   color: #007b00;
-  font-family: Minesweeper;
-  font-size: 2rem;
 }
 
-.nr3 {
+.num3 {
   color: red;
-  font-family: Minesweeper;
-  font-size: 200%;
+}
+
+.num4 {
+  color: #00007b;
+}
+.num5 {
+  color: #7b0000;
+}
+.num6 {
+  color: #006968;
+}
+.num7 {
+  color: #007b7b;
+}
+.num8 {
+  color: #7b7b7b;
 }
 
 .explosion {
@@ -130,18 +248,18 @@ button {
 }
 
 .flag {
+  width: 80%;
   content: url('https://cardgames.io/minesweeper/images/flag.svg');
 }
 
-.bomb {
+// 100% fixes red not hitting left/right borders aka filling the entire square
+.mine {
+  width: 80%;
   content: url('https://cardgames.io/minesweeper/images/mine.svg');
 }
 
-.question {
-  content: url('https://cardgames.io/minesweeper/images/questionmark.svg');
-}
-
-.false_bomb {
+.not-a-mine {
+  width: 80%;
   content: url('https://cardgames.io/minesweeper/images/minestrike.svg');
 }
 
