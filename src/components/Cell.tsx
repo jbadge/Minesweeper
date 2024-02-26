@@ -33,7 +33,7 @@ export function Cell({
   }
 
   function isFlag(event: React.MouseEvent, target: any) {
-    if (target.firstElementChild === null || event.nativeEvent.button === 0) {
+    if (target.firstElementChild === null || target.className === 'revealed') {
       return
     }
     if (event.nativeEvent.button === 2) {
@@ -53,53 +53,52 @@ export function Cell({
   }
 
   // Add counter of moves
-  // Need to fix that you can put flag on number
-
   function transformCell(value: string | number) {
-    // ?? if (cellState !== null) {
-    if (cellState === 'win' || cellState === 'lost') {
-      if (value === '@') {
-        return <span className="flag" />
+    if (cellState !== null) {
+      if (cellState === 'win' || cellState === 'lost') {
+        if (value === '@') {
+          return <span className="flag" />
+        }
+        if (value === 'F') {
+          return <span className="not-a-mine" />
+        }
+      } else {
+        if (value === 'F') {
+          return <span className="" />
+        }
       }
-      if (value === 'F') {
-        return <span className="not-a-mine" />
+      if (value === '*') {
+        return <span className="mine" />
       }
-    } else {
-      if (value === 'F') {
-        return <span className="" />
+      if (value === '_') {
+        return ''
       }
+      if (value === 1) {
+        return <div className="number num1">1</div>
+      }
+      if (value === 2) {
+        return <span className="number num2">2</span>
+      }
+      if (value === 3) {
+        return <span className="number num3">3</span>
+      }
+      if (value === 4) {
+        return <span className="number num4">4</span>
+      }
+      if (value === 5) {
+        return <span className="number num5">5</span>
+      }
+      if (value === 6) {
+        return <span className="number num6">6</span>
+      }
+      if (value === 7) {
+        return <span className="number num7">7</span>
+      }
+      if (value === 8) {
+        return <span className="number num8">8</span>
+      }
+      return value
     }
-    if (value === '*') {
-      return <span className="mine" />
-    }
-    if (value === '_') {
-      return ''
-    }
-    if (value === 1) {
-      return <div className="number num1">1</div>
-    }
-    if (value === 2) {
-      return <span className="number num2">2</span>
-    }
-    if (value === 3) {
-      return <span className="number num3">3</span>
-    }
-    if (value === 4) {
-      return <span className="number num4">4</span>
-    }
-    if (value === 5) {
-      return <span className="number num5">5</span>
-    }
-    if (value === 6) {
-      return <span className="number num6">6</span>
-    }
-    if (value === 7) {
-      return <span className="number num7">7</span>
-    }
-    if (value === 8) {
-      return <span className="number num8">8</span>
-    }
-    return value
   }
 
   return (

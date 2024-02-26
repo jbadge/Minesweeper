@@ -59,6 +59,7 @@ export function App() {
       game.id === null ||
       game.state === 'won' ||
       game.state === 'lost' ||
+      clickSnapshot.className === 'revealed' ||
       clickSnapshot.firstElementChild?.className === '' ||
       (game.board[row][col] !== ' ' && game.board[row][col] !== 'F')
     ) {

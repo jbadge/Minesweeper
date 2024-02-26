@@ -10,8 +10,10 @@
   --tangerine: #f99d1b;
   --header-font-size: 3rem;
   --header-font-size: 2rem;
-  // --square-background-color: #bdbdbd;
-
+  --white-ish: #fff;
+  --light-grey-ish: #bdbdbd;
+  --medium-grey-ish: #7b7b7b;
+  --dark-grey-ish: #707070;
   font: 16px / 1 sans-serif;
 }
 
@@ -31,11 +33,11 @@ body {
 }
 
 h1 {
-  font-size: var(--header-font-size);
   padding: 1rem;
-  text-align: center;
   margin-top: 10px;
   margin-bottom: 0px;
+  text-align: center;
+  font-size: var(--header-font-size);
 }
 
 h2 {
@@ -45,17 +47,16 @@ h2 {
 }
 
 h3 {
+  margin: 5px;
   font-size: 1rem;
   text-align: center;
-  margin: 5px;
 }
 
 main {
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  flex-direction: column;
-  border: 10px darkgrey;
 
   section {
     &.game-over button {
@@ -65,85 +66,85 @@ main {
 }
 
 #difficulty-0 {
-  background-color: #bdbdbd;
   padding: 7px;
   padding-top: 14px;
-  border-bottom: solid 3px #707070;
-  border-right: solid 3px #707070;
-  border-top: solid 3px #fff;
-  border-left: solid 3px #fff;
+  background-color: var(--light-grey-ish);
+  border-top: solid 3px var(--white-ish);
+  border-left: solid 3px var(--white-ish);
+  border-right: solid 3px var(--dark-grey-ish);
+  border-bottom: solid 3px var(--dark-grey-ish);
 }
 
 #difficulty-1 {
-  background: #bdbdbd;
   padding: 7px;
   padding-top: 14px;
-  border-bottom: solid 3px #707070;
-  border-right: solid 3px #707070;
-  border-top: solid 3px #fff;
-  border-left: solid 3px #fff;
+  background: var(--light-grey-ish);
+  border-top: solid 3px var(--white-ish);
+  border-left: solid 3px var(--white-ish);
+  border-right: solid 3px var(--dark-grey-ish);
+  border-bottom: solid 3px var(--dark-grey-ish);
 }
 
 #difficulty-2 {
-  background: #bdbdbd;
   padding: 7px;
   padding-top: 14px;
-  border-bottom: solid 3px #707070;
-  border-right: solid 3px #707070;
-  border-top: solid 3px #fff;
-  border-left: solid 3px #fff;
+  background: var(--light-grey-ish);
+  border-top: solid 3px var(--white-ish);
+  border-left: solid 3px var(--white-ish);
+  border-right: solid 3px var(--dark-grey-ish);
+  border-bottom: solid 3px var(--dark-grey-ish);
 }
 
 #game-board-0 {
   display: grid;
-  grid-template: repeat(8, minmax(2.5rem, 1fr)) / repeat(8, minmax(2.5rem, 1fr));
-  justify-self: center;
   align-self: center;
-  border-bottom: solid 3px #fff;
-  border-right: solid 3px #fff;
-  border-top: solid 3px #707070;
-  border-left: solid 3px #707070;
-  background-color: #bdbdbd;
+  justify-self: center;
+  grid-template: repeat(8, minmax(2.5rem, 1fr)) / repeat(8, minmax(2.5rem, 1fr));
   border-radius: 3px;
+  background-color: var(--light-grey-ish);
+  border-right: solid 3px var(--white-ish);
+  border-bottom: solid 3px var(--white-ish);
+  border-top: solid 3px var(--dark-grey-ish);
+  border-left: solid 3px var(--dark-grey-ish);
 }
 
 #game-board-1 {
   display: grid;
-  grid-template: repeat(16, minmax(2rem, 1fr)) / repeat(16, minmax(2rem, 1fr));
-  justify-self: center;
   align-self: center;
-  border-bottom: solid 3px #fff;
-  border-right: solid 3px #fff;
-  border-top: solid 3px #707070;
-  border-left: solid 3px #707070;
+  justify-self: center;
+  grid-template: repeat(16, minmax(2rem, 1fr)) / repeat(16, minmax(2rem, 1fr));
   padding: 7px;
-  background-color: #bdbdbd;
   border-radius: 3px;
+  background-color: var(--light-grey-ish);
+  border-right: solid 3px var(--white-ish);
+  border-bottom: solid 3px var(--white-ish);
+  border-top: solid 3px var(--dark-grey-ish);
+  border-left: solid 3px var(--dark-grey-ish);
 }
 
 #game-board-2 {
   display: grid;
-  grid-template: repeat(24, minmax(2rem, 1fr)) / repeat(24, minmax(2rem, 1fr));
-  justify-self: center;
   align-self: center;
-  border-bottom: solid 3px #fff;
-  border-right: solid 3px #fff;
-  border-top: solid 3px #707070;
-  border-left: solid 3px #707070;
+  justify-self: center;
+  grid-template: repeat(24, minmax(2rem, 1fr)) / repeat(24, minmax(2rem, 1fr));
   padding: 7px;
-  background-color: #bdbdbd;
   border-radius: 3px;
+  background-color: var(--light-grey-ish);
+  border-right: solid 3px var(--white-ish);
+  border-bottom: solid 3px var(--white-ish);
+  border-top: solid 3px var(--dark-grey-ish);
+  border-left: solid 3px var(--dark-grey-ish);
 }
 
 #mine-info-board {
-  border-bottom: solid 3px #fff;
-  border-right: solid 3px #fff;
-  border-top: solid 3px #707070;
-  border-left: solid 3px #707070;
+  padding: 6px;
   margin-bottom: 10px;
   border-radius: 2px;
-  padding: 6px;
-  background-color: #bdbdbd;
+  background-color: var(--light-grey-ish);
+  border-right: solid 3px var(--white-ish);
+  border-bottom: solid 3px var(--white-ish);
+  border-top: solid 3px var(--dark-grey-ish);
+  border-left: solid 3px var(--dark-grey-ish);
 }
 
 #mine-info-wrapper {
@@ -158,24 +159,23 @@ main {
 
 #number-of-mines {
   position: relative;
-  background-color: #bdbdbd;
-  font-size: 1.5rem;
-  margin-bottom: 10px;
-  border-radius: 2px;
   padding: 6px;
   margin: 0px 3px;
+  font-size: 1.5rem;
+  border-radius: 2px;
+  background-color: var(--light-grey-ish);
   align-self: center;
 }
 
 #difficulty-selection-board {
-  border-bottom: solid 3px #fff;
-  border-right: solid 3px #fff;
-  border-top: solid 3px #707070;
-  border-left: solid 3px #707070;
   margin-top: 10px;
   margin-bottom: 10px;
+  background-color: var(--light-grey-ish);
+  border-right: solid 3px var(--white-ish);
+  border-bottom: solid 3px var(--white-ish);
+  border-top: solid 3px var(--dark-grey-ish);
+  border-left: solid 3px var(--dark-grey-ish);
   border-radius: 2px;
-  background-color: #bdbdbd;
 }
 
 .difficulty-selection-wrapper {
@@ -185,22 +185,22 @@ main {
 }
 
 button {
-  background-color: #bdbdbd;
   display: flex;
-  justify-content: center;
   align-items: center;
-  border-left: solid 3px #fff;
-  border-top: solid 3px #fff;
-  border-bottom: solid 3px #7b7b7b;
-  border-right: solid 3px #7b7b7b;
+  justify-content: center;
   line-height: 16px;
+  background-color: var(--light-grey-ish);
+  border-top: solid 3px var(--white-ish);
+  border-left: solid 3px var(--white-ish);
+  border-bottom: solid 3px var(--medium-grey-ish);
+  border-right: solid 3px var(--medium-grey-ish);
 
   &.revealed {
-    border-left: solid 1px #7b7b7b;
-    border-top: solid 1px #7b7b7b;
+    cursor: not-allowed;
     border-right: none;
     border-bottom: none;
-    cursor: not-allowed;
+    border-top: solid 1px var(--medium-grey-ish);
+    border-left: solid 1px var(--medium-grey-ish);
   }
 }
 
@@ -239,7 +239,7 @@ button {
   color: #007b7b;
 }
 .num8 {
-  color: #7b7b7b;
+  color: var(--medium-grey-ish);
 }
 
 .explosion {
