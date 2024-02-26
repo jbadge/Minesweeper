@@ -27,6 +27,10 @@ type Game = {
 }
 
 export function App() {
+  // To Do:
+  // keeps seeming like it runs twice, not sure why
+  // Re-factor css and remove commented out portion below it
+
   const [game, setGame] = useState<Game>({
     id: null,
     board: [
@@ -44,6 +48,8 @@ export function App() {
     difficulty: 0,
   })
 
+  const [counter, setCounter] = useState(0)
+
   const [difficulty, setDifficulty] = useState<Difficulty>(0)
 
   async function handleClickCell(
@@ -60,13 +66,12 @@ export function App() {
       game.state === 'won' ||
       game.state === 'lost' ||
       clickSnapshot.className === 'revealed' ||
-      clickSnapshot.firstElementChild?.className === '' ||
-      (game.board[row][col] !== ' ' && game.board[row][col] !== 'F')
+      clickSnapshot.firstElementChild?.className === 'flag' ||
+      clickSnapshot.firstElementChild?.className === 'question'
     ) {
       return
     }
-
-    if (event.nativeEvent.button === 0 && game.board[row][col] !== 'F') {
+    if (event.nativeEvent.button === 0) {
       const url = `https://minesweeper-api.herokuapp.com/games/${game.id}/check`
 
       const body = { row, col }
@@ -80,8 +85,9 @@ export function App() {
       if (response.ok) {
         const newGameState = (await response.json()) as Game
         setGame(newGameState)
+        setCounter(() => counter + 1)
       }
-    } else if (event.nativeEvent.button === 2) {
+    } else if (event.nativeEvent.button === 2 && game.board[row][col] !== 'F') {
       const url = `https://minesweeper-api.herokuapp.com/games/${game.id}/flag`
       const body = { row, col }
 
@@ -150,9 +156,13 @@ export function App() {
       <main>
         <section id={`difficulty-${difficulty}`}>
           <section id="mine-info-board">
-            <div id="mine-info-wrapper">
-              <span className="mine-text">Mines remaining: </span>
-              <span id="number-of-mines">{minesLeft()}</span>
+            <div className="counter-info-wrapper">
+              <span className="info-text">Moves: </span>
+              <span className="info-number">{`${counter}`}</span>
+            </div>
+            <div className="mine-info-wrapper">
+              <span className="info-text">Mines remaining: </span>
+              <span className="info-number">{minesLeft()}</span>
             </div>
           </section>
           <section

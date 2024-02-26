@@ -33,12 +33,21 @@ export function Cell({
   }
 
   function isFlag(event: React.MouseEvent, target: any) {
-    if (target.firstElementChild === null || target.className === 'revealed') {
-      return
-    }
     if (event.nativeEvent.button === 2) {
-      target.firstElementChild.classList.toggle('flag')
-      return
+      if (cell === ' ') {
+        target.firstElementChild.classList.add('flag')
+        cell = 'F'
+        return
+      } else if (cell === 'F') {
+        target.firstElementChild.classList.remove('flag')
+        target.firstElementChild.classList.add('question')
+        cell = 'Q'
+        return
+      } else if (cell === 'Q') {
+        target.firstElementChild.classList.remove('question')
+        cell = ' '
+        return
+      }
     }
   }
 
@@ -46,13 +55,11 @@ export function Cell({
     if (target.firstElementChild === null) {
       return
     }
-
     if (target.firstElementChild.className === 'mine') {
       target.firstElementChild.classList.add('explosion')
     }
   }
 
-  // Add counter of moves
   function transformCell(value: string | number) {
     if (cellState !== null) {
       if (cellState === 'win' || cellState === 'lost') {

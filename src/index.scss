@@ -147,17 +147,23 @@ main {
   border-left: solid 3px var(--dark-grey-ish);
 }
 
-#mine-info-wrapper {
+.counter-info-wrapper {
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-.mine-text {
+.mine-info-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.info-text {
   font-size: 1.2rem;
 }
 
-#number-of-mines {
+.info-number {
   position: relative;
   padding: 6px;
   margin: 0px 3px;
@@ -263,6 +269,10 @@ button {
   content: url('https://cardgames.io/minesweeper/images/minestrike.svg');
 }
 
+.question {
+  width: 80%;
+  content: url('https://cardgames.io/minesweeper/images/questionmark.svg');
+}
 // main {
 //   margin: 0 auto;
 //   padding: 0 2rem;
