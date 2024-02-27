@@ -19,6 +19,7 @@ export function Cell({
   cellState,
   handleClickCell,
 }: CellProps) {
+  console.log('Running')
   async function handleClick(
     event: React.MouseEvent,
     row: number,

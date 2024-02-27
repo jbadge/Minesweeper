@@ -28,8 +28,8 @@ type Game = {
 
 export function App() {
   // To Do:
-  // keeps seeming like it runs twice, not sure why
-  // Re-factor css and remove commented out portion below it
+  // keeps seeming like it runs twice, useEffect and setCounter
+  // RED-MINE HIT SQUARE
 
   const [game, setGame] = useState<Game>({
     id: null,
@@ -48,7 +48,8 @@ export function App() {
     difficulty: 0,
   })
 
-  const [counter, setCounter] = useState(0)
+  // Move Counter
+  // const [counter, setCounter] = useState(0)
 
   const [difficulty, setDifficulty] = useState<Difficulty>(0)
 
@@ -73,7 +74,6 @@ export function App() {
     }
     if (event.nativeEvent.button === 0) {
       const url = `https://minesweeper-api.herokuapp.com/games/${game.id}/check`
-
       const body = { row, col }
 
       const response = await fetch(url, {
@@ -85,7 +85,7 @@ export function App() {
       if (response.ok) {
         const newGameState = (await response.json()) as Game
         setGame(newGameState)
-        setCounter(() => counter + 1)
+        // setCounter(() => counter + 1)
       }
     } else if (event.nativeEvent.button === 2 && game.board[row][col] !== 'F') {
       const url = `https://minesweeper-api.herokuapp.com/games/${game.id}/flag`
@@ -141,12 +141,27 @@ export function App() {
     return game.mines
   }
 
-  function isGameOver() {
+  const isGameOver = () => {
     if (game.state === 'won' || game.state === 'lost') {
-      return false
+      return 'game-over'
+    } else {
+      return ''
     }
-    return true
   }
+
+  const gameLevel = () => {
+    if (difficulty === 0) {
+      return 'easy'
+    }
+    if (difficulty === 1) {
+      return 'medium'
+    }
+    if (difficulty === 2) {
+      return 'hard'
+    }
+  }
+
+  const classes = `${gameLevel()} ${isGameOver()}`
 
   return (
     <div>
@@ -158,17 +173,15 @@ export function App() {
           <section id="mine-info-board">
             <div className="counter-info-wrapper">
               <span className="info-text">Moves: </span>
-              <span className="info-number">{`${counter}`}</span>
+              <span className="info-number">0</span>
+              {/* {`${counter}`}</span> */}
             </div>
             <div className="mine-info-wrapper">
               <span className="info-text">Mines remaining: </span>
               <span className="info-number">{minesLeft()}</span>
             </div>
           </section>
-          <section
-            id={`game-board-${difficulty}`}
-            className={isGameOver() ? undefined : 'game-over'}
-          >
+          <section id="game-board" className={classes}>
             {game.board.map((row, rowIndex) =>
               row.map((col, colIndex) => (
                 <Cell

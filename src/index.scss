@@ -1,19 +1,11 @@
 :root {
-  // SDG brand colors
-  --asphalt: #2f3737;
-  --bright-sky: #80ced2;
-  --lime: #b1d133;
-  --night-sky: #85577e;
-  --sand: #f7f0da;
-  --sea: #5a9090;
-  --sun: #d5562b;
-  --tangerine: #f99d1b;
   --header-font-size: 3rem;
   --header-font-size: 2rem;
   --white-ish: #fff;
   --light-grey-ish: #bdbdbd;
   --medium-grey-ish: #7b7b7b;
   --dark-grey-ish: #707070;
+
   font: 16px / 1 sans-serif;
 }
 
@@ -57,7 +49,6 @@ main {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-
   section {
     &.game-over button {
       cursor: not-allowed;
@@ -65,79 +56,43 @@ main {
   }
 }
 
-#difficulty-0 {
-  padding: 7px;
-  padding-top: 14px;
-  background-color: var(--light-grey-ish);
-  border-top: solid 3px var(--white-ish);
-  border-left: solid 3px var(--white-ish);
-  border-right: solid 3px var(--dark-grey-ish);
-  border-bottom: solid 3px var(--dark-grey-ish);
-}
-
-#difficulty-1 {
-  padding: 7px;
-  padding-top: 14px;
-  background: var(--light-grey-ish);
-  border-top: solid 3px var(--white-ish);
-  border-left: solid 3px var(--white-ish);
-  border-right: solid 3px var(--dark-grey-ish);
-  border-bottom: solid 3px var(--dark-grey-ish);
-}
-
+#difficulty-0,
+#difficulty-1,
 #difficulty-2 {
   padding: 7px;
   padding-top: 14px;
-  background: var(--light-grey-ish);
+  background-color: var(--light-grey-ish);
   border-top: solid 3px var(--white-ish);
   border-left: solid 3px var(--white-ish);
   border-right: solid 3px var(--dark-grey-ish);
   border-bottom: solid 3px var(--dark-grey-ish);
 }
 
-#game-board-0 {
+#game-board {
   display: grid;
   align-self: center;
   justify-self: center;
-  grid-template: repeat(8, minmax(2.5rem, 1fr)) / repeat(8, minmax(2.5rem, 1fr));
   border-radius: 3px;
   background-color: var(--light-grey-ish);
   border-right: solid 3px var(--white-ish);
   border-bottom: solid 3px var(--white-ish);
   border-top: solid 3px var(--dark-grey-ish);
   border-left: solid 3px var(--dark-grey-ish);
+  &.easy {
+    grid-template: repeat(8, minmax(2rem, 1fr)) / repeat(8, minmax(2rem, 1fr));
+  }
+  &.medium {
+    grid-template: repeat(16, minmax(2rem, 1fr)) / repeat(16, minmax(2rem, 1fr));
+  }
+
+  &.hard {
+    grid-template: repeat(24, minmax(2rem, 1fr)) / repeat(24, minmax(2rem, 1fr));
+  }
 }
 
-#game-board-1 {
-  display: grid;
-  align-self: center;
-  justify-self: center;
-  grid-template: repeat(16, minmax(2rem, 1fr)) / repeat(16, minmax(2rem, 1fr));
-  padding: 7px;
-  border-radius: 3px;
-  background-color: var(--light-grey-ish);
-  border-right: solid 3px var(--white-ish);
-  border-bottom: solid 3px var(--white-ish);
-  border-top: solid 3px var(--dark-grey-ish);
-  border-left: solid 3px var(--dark-grey-ish);
-}
-
-#game-board-2 {
-  display: grid;
-  align-self: center;
-  justify-self: center;
-  grid-template: repeat(24, minmax(2rem, 1fr)) / repeat(24, minmax(2rem, 1fr));
-  padding: 7px;
-  border-radius: 3px;
-  background-color: var(--light-grey-ish);
-  border-right: solid 3px var(--white-ish);
-  border-bottom: solid 3px var(--white-ish);
-  border-top: solid 3px var(--dark-grey-ish);
-  border-left: solid 3px var(--dark-grey-ish);
-}
-
-#mine-info-board {
-  padding: 6px;
+#mine-info-board,
+#difficulty-selection-board {
+  margin-top: 10px;
   margin-bottom: 10px;
   border-radius: 2px;
   background-color: var(--light-grey-ish);
@@ -147,13 +102,9 @@ main {
   border-left: solid 3px var(--dark-grey-ish);
 }
 
-.counter-info-wrapper {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.mine-info-wrapper {
+.counter-info-wrapper,
+.mine-info-wrapper,
+.difficulty-selection-wrapper {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -171,23 +122,6 @@ main {
   border-radius: 2px;
   background-color: var(--light-grey-ish);
   align-self: center;
-}
-
-#difficulty-selection-board {
-  margin-top: 10px;
-  margin-bottom: 10px;
-  background-color: var(--light-grey-ish);
-  border-right: solid 3px var(--white-ish);
-  border-bottom: solid 3px var(--white-ish);
-  border-top: solid 3px var(--dark-grey-ish);
-  border-left: solid 3px var(--dark-grey-ish);
-  border-radius: 2px;
-}
-
-.difficulty-selection-wrapper {
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 
 button {
@@ -273,24 +207,3 @@ button {
   width: 80%;
   content: url('https://cardgames.io/minesweeper/images/questionmark.svg');
 }
-// main {
-//   margin: 0 auto;
-//   padding: 0 2rem;
-//   max-width: 20rem;
-
-//   section#difficulty-0 {
-//     display: grid;
-//     grid-template: repeat(8, minmax(2.5rem, 1fr)) / repeat(
-//         8,
-//         minmax(2.5rem, 1fr)
-//       );
-//   }
-
-//   button {
-//     background-color: var(--square-background-color);
-//   }
-// }
-
-// div {
-//   width: 100%;
-// }
