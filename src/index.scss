@@ -5,7 +5,6 @@
   --light-grey-ish: #bdbdbd;
   --medium-grey-ish: #7b7b7b;
   --dark-grey-ish: #707070;
-
   font: 16px / 1 sans-serif;
 }
 
@@ -19,8 +18,7 @@ html {
 }
 
 body {
-  margin: 0;
-  min-height: 100%;
+  min-height: 90%;
   background-color: #629ac4;
 }
 
@@ -46,7 +44,6 @@ h3 {
 
 main {
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
   section {
@@ -56,16 +53,17 @@ main {
   }
 }
 
-#difficulty-0,
-#difficulty-1,
-#difficulty-2 {
-  padding: 7px;
+[class^='game-difficulty-'] {
+  padding: 8px;
   padding-top: 14px;
   background-color: var(--light-grey-ish);
   border-top: solid 3px var(--white-ish);
   border-left: solid 3px var(--white-ish);
   border-right: solid 3px var(--dark-grey-ish);
   border-bottom: solid 3px var(--dark-grey-ish);
+  .mine-info-board {
+    padding: 8px;
+  }
 }
 
 #game-board {
@@ -90,8 +88,7 @@ main {
   }
 }
 
-#mine-info-board,
-#difficulty-selection-board {
+[class$='-info-board'] {
   margin-top: 10px;
   margin-bottom: 10px;
   border-radius: 2px;
@@ -102,26 +99,22 @@ main {
   border-left: solid 3px var(--dark-grey-ish);
 }
 
-.counter-info-wrapper,
-.mine-info-wrapper,
-.difficulty-selection-wrapper {
+[class$='-info-wrapper'] {
   display: flex;
   align-items: center;
   justify-content: center;
-}
-
-.info-text {
-  font-size: 1.2rem;
-}
-
-.info-number {
-  position: relative;
-  padding: 6px;
-  margin: 0px 3px;
-  font-size: 1.5rem;
-  border-radius: 2px;
-  background-color: var(--light-grey-ish);
-  align-self: center;
+  .info-text {
+    font-size: 1.2rem;
+  }
+  .info-number {
+    position: relative;
+    padding: 6px;
+    margin: 0px 3px;
+    font-size: 1.4rem;
+    border-radius: 2px;
+    background-color: var(--light-grey-ish);
+    align-self: center;
+  }
 }
 
 button {
@@ -134,7 +127,9 @@ button {
   border-left: solid 3px var(--white-ish);
   border-bottom: solid 3px var(--medium-grey-ish);
   border-right: solid 3px var(--medium-grey-ish);
-
+  &.difficulty-button {
+    width: 100%;
+  }
   &.revealed {
     cursor: not-allowed;
     border-right: none;
@@ -144,42 +139,33 @@ button {
   }
 }
 
-.difficulty-button {
-  width: 100%;
-}
-
 .number {
-  font-size: 2rem;
-  font-weight: 700;
+  font-size: 1.5rem;
   font-family: 'Arial Black', Arial, sans-serif;
-}
-
-.num1 {
-  color: #00f;
-}
-
-.num2 {
-  color: #007b00;
-}
-
-.num3 {
-  color: red;
-}
-
-.num4 {
-  color: #00007b;
-}
-.num5 {
-  color: #7b0000;
-}
-.num6 {
-  color: #006968;
-}
-.num7 {
-  color: #007b7b;
-}
-.num8 {
-  color: var(--medium-grey-ish);
+  &.num1 {
+    color: #00f;
+  }
+  &.num2 {
+    color: #007b00;
+  }
+  &.num3 {
+    color: red;
+  }
+  &.num4 {
+    color: #00007b;
+  }
+  &.num5 {
+    color: #7b0000;
+  }
+  &.num6 {
+    color: #006968;
+  }
+  &.num7 {
+    color: #007b7b;
+  }
+  &.num8 {
+    color: var(--medium-grey-ish);
+  }
 }
 
 .explosion {
@@ -192,7 +178,6 @@ button {
   content: url('https://cardgames.io/minesweeper/images/flag.svg');
 }
 
-// 100% fixes red not hitting left/right borders aka filling the entire square
 .mine {
   width: 80%;
   content: url('https://cardgames.io/minesweeper/images/mine.svg');

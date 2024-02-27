@@ -27,10 +27,6 @@ type Game = {
 }
 
 export function App() {
-  // To Do:
-  // keeps seeming like it runs twice, useEffect and setCounter
-  // RED-MINE HIT SQUARE
-
   const [game, setGame] = useState<Game>({
     id: null,
     board: [
@@ -47,9 +43,6 @@ export function App() {
     mines: null,
     difficulty: 0,
   })
-
-  // Move Counter
-  // const [counter, setCounter] = useState(0)
 
   const [difficulty, setDifficulty] = useState<Difficulty>(0)
 
@@ -85,7 +78,6 @@ export function App() {
       if (response.ok) {
         const newGameState = (await response.json()) as Game
         setGame(newGameState)
-        // setCounter(() => counter + 1)
       }
     } else if (event.nativeEvent.button === 2 && game.board[row][col] !== 'F') {
       const url = `https://minesweeper-api.herokuapp.com/games/${game.id}/flag`
@@ -169,13 +161,8 @@ export function App() {
       <h2>{checkState()}</h2>
 
       <main>
-        <section id={`difficulty-${difficulty}`}>
-          <section id="mine-info-board">
-            <div className="counter-info-wrapper">
-              <span className="info-text">Moves: </span>
-              <span className="info-number">0</span>
-              {/* {`${counter}`}</span> */}
-            </div>
+        <section className={`game-difficulty-${difficulty}`}>
+          <section className="mine-info-board">
             <div className="mine-info-wrapper">
               <span className="info-text">Mines remaining: </span>
               <span className="info-number">{minesLeft()}</span>
@@ -195,8 +182,8 @@ export function App() {
               ))
             )}
           </section>
-          <section id="difficulty-selection-board">
-            <span className="difficulty-selection-wrapper">
+          <section className="difficulty-info-board">
+            <span className="difficulty-info-wrapper">
               <button
                 className="difficulty-button"
                 onClick={() => handleNewGame(0)}
