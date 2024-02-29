@@ -46,12 +46,9 @@ export function App() {
 
   const [difficulty, setDifficulty] = useState<Difficulty>(0)
 
-  async function handleClickCell(
-    event: React.MouseEvent,
-    row: number,
-    col: number
-  ) {
+  async function recordMove(event: React.MouseEvent, row: number, col: number) {
     event.preventDefault()
+    // console.log('5')
 
     const clickSnapshot = event.currentTarget
 
@@ -59,39 +56,92 @@ export function App() {
       game.id === null ||
       game.state === 'won' ||
       game.state === 'lost' ||
-      clickSnapshot.className === 'revealed' ||
-      clickSnapshot.firstElementChild?.className === 'flag' ||
-      clickSnapshot.firstElementChild?.className === 'question'
+      clickSnapshot.className === 'revealed'
     ) {
       return
     }
+    // NEEDS A GUARD CLAUSE TO PREVENT THE QUESTION MARKS
+    // FOR COUNTING AS MINES IF YOU CLICK
+    // LEFT CLICK WHILE THEY ARE CHOSEN
+
+    // For left click
+    // If ‘ ‘ and ‘ ‘ or if ‘ ‘ and null, then reveal
     if (event.nativeEvent.button === 0) {
-      const url = `https://minesweeper-api.herokuapp.com/games/${game.id}/check`
-      const body = { row, col }
+      if (
+        (game.board[row][col] === ' ' &&
+          clickSnapshot.firstElementChild === null) ||
+        (game.board[row][col] === ' ' &&
+          clickSnapshot.firstElementChild?.className === '')
+      ) {
+        const url = `https://minesweeper-api.herokuapp.com/games/${game.id}/check`
 
-      const response = await fetch(url, {
-        method: 'POST',
-        headers: { 'content-type': 'application/json' },
-        body: JSON.stringify(body),
-      })
+        const body = { row, col }
 
-      if (response.ok) {
-        const newGameState = (await response.json()) as Game
-        setGame(newGameState)
+        const response = await fetch(url, {
+          method: 'POST',
+          headers: { 'content-type': 'application/json' },
+          body: JSON.stringify(body),
+        })
+
+        if (response.ok) {
+          const newGameState = (await response.json()) as Game
+          setGame(newGameState)
+        }
       }
-    } else if (event.nativeEvent.button === 2 && game.board[row][col] !== 'F') {
-      const url = `https://minesweeper-api.herokuapp.com/games/${game.id}/flag`
-      const body = { row, col }
 
-      const response = await fetch(url, {
-        method: 'POST',
-        headers: { 'content-type': 'application/json' },
-        body: JSON.stringify(body),
-      })
+      // For right click
+      // If ‘ ‘ and null then F and flag -- run flag api
+      // If F and flag, then ‘ ‘ and question -- run flag api
+      // If ‘ ‘ and ‘ ‘ then F and flag -- run flag api
+    } else if (event.nativeEvent.button === 2) {
+      if (
+        (game.board[row][col] === ' ' &&
+          clickSnapshot.firstElementChild === null) ||
+        (game.board[row][col] === ' ' &&
+          clickSnapshot.firstElementChild?.className === '') ||
+        (game.board[row][col] === 'F' &&
+          clickSnapshot.firstElementChild?.className === 'flag')
+      ) {
+        if (clickSnapshot.firstElementChild?.className === '') {
+          const url = `https://minesweeper-api.herokuapp.com/games/${game.id}/flag`
 
-      if (response.ok) {
-        const newGameState = (await response.json()) as Game
-        setGame(newGameState)
+          const body = { row, col }
+
+          const response = await fetch(url, {
+            method: 'POST',
+            headers: { 'content-type': 'application/json' },
+            body: JSON.stringify(body),
+          })
+
+          if (response.ok) {
+            const newGameState = (await response.json()) as Game
+            setGame(newGameState)
+          }
+        } else if (clickSnapshot.firstElementChild?.className === 'flag') {
+          const url = `https://minesweeper-api.herokuapp.com/games/${game.id}/flag`
+
+          const body = { row, col }
+
+          const response = await fetch(url, {
+            method: 'POST',
+            headers: { 'content-type': 'application/json' },
+            body: JSON.stringify(body),
+          })
+
+          if (response.ok) {
+            const newGameState = (await response.json()) as Game
+            setGame(newGameState)
+            game.board[row][col] = newGameState.board[row][col]
+            clickSnapshot.firstElementChild?.classList.add('question')
+          }
+        }
+      } else {
+        // If ‘ ‘ and question, then ‘ ‘ and ‘ ‘ -- do NOT run flag api
+        // (I believe api will make ‘ ‘ null after setGame)
+        // if (
+        //   game.board[row][col] === ' ' &&
+        //   clickSnapshot.firstElementChild?.className === 'question'
+        // ) {
       }
     }
   }
@@ -129,15 +179,11 @@ export function App() {
     }
   }
 
-  function minesLeft() {
-    return game.mines
-  }
-
   const isGameOver = () => {
     if (game.state === 'won' || game.state === 'lost') {
       return 'game-over'
     } else {
-      return ''
+      return
     }
   }
 
@@ -153,8 +199,6 @@ export function App() {
     }
   }
 
-  const classes = `${gameLevel()} ${isGameOver()}`
-
   return (
     <div>
       <h1>Minesweeper</h1>
@@ -165,10 +209,10 @@ export function App() {
           <section className="mine-info-board">
             <div className="mine-info-wrapper">
               <span className="info-text">Mines remaining: </span>
-              <span className="info-number">{minesLeft()}</span>
+              <span className="info-number">{game.mines}</span>
             </div>
           </section>
-          <section id="game-board" className={classes}>
+          <section id="game-board" className={`${gameLevel()} ${isGameOver()}`}>
             {game.board.map((row, rowIndex) =>
               row.map((col, colIndex) => (
                 <Cell
@@ -177,7 +221,7 @@ export function App() {
                   cellRowIndex={rowIndex}
                   cellColIndex={colIndex}
                   cellState={game.state}
-                  handleClickCell={handleClickCell}
+                  recordMove={recordMove}
                 />
               ))
             )}
@@ -209,3 +253,7 @@ export function App() {
     </div>
   )
 }
+
+// Right click puts F in cell
+// Right click again put ‘ ‘ in cell
+// Total binary behavior,
