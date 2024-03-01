@@ -46,12 +46,15 @@ export function App() {
 
   const [difficulty, setDifficulty] = useState<Difficulty>(0)
 
-  async function recordMove(event: React.MouseEvent, row: number, col: number) {
-    event.preventDefault()
-    // console.log('5')
-
+  async function handleCheckOrFlagCell(
+    event: React.MouseEvent,
+    row: number,
+    col: number
+  ) {
     const clickSnapshot = event.currentTarget
-
+    console.log(
+      `The cell has value '${game.board[row][col]}' and the className is '${clickSnapshot.firstElementChild?.className}'`
+    )
     if (
       game.id === null ||
       game.state === 'won' ||
@@ -100,9 +103,13 @@ export function App() {
         (game.board[row][col] === ' ' &&
           clickSnapshot.firstElementChild?.className === '') ||
         (game.board[row][col] === 'F' &&
-          clickSnapshot.firstElementChild?.className === 'flag')
+          clickSnapshot.firstElementChild?.className === 'flag') ||
+        clickSnapshot.firstElementChild?.className === 'question'
       ) {
-        if (clickSnapshot.firstElementChild?.className === '') {
+        if (
+          clickSnapshot.firstElementChild?.className === '' ||
+          clickSnapshot.firstElementChild?.className === 'question'
+        ) {
           const url = `https://minesweeper-api.herokuapp.com/games/${game.id}/flag`
 
           const body = { row, col }
@@ -118,30 +125,32 @@ export function App() {
             setGame(newGameState)
           }
         } else if (clickSnapshot.firstElementChild?.className === 'flag') {
-          const url = `https://minesweeper-api.herokuapp.com/games/${game.id}/flag`
+          if (game.mines !== null) {
+            game.mines += 1
 
-          const body = { row, col }
+            const url = `https://minesweeper-api.herokuapp.com/games/${game.id}`
 
-          const response = await fetch(url, {
-            method: 'POST',
-            headers: { 'content-type': 'application/json' },
-            body: JSON.stringify(body),
-          })
+            const response = await fetch(url, {
+              method: 'GET',
+              headers: { 'content-type': 'application/json' },
+            })
 
-          if (response.ok) {
-            const newGameState = (await response.json()) as Game
-            setGame(newGameState)
-            game.board[row][col] = newGameState.board[row][col]
-            clickSnapshot.firstElementChild?.classList.add('question')
+            if (response.ok) {
+              const newGameState = (await response.json()) as Game
+              newGameState.mines = game.mines
+              setGame(newGameState)
+              game.board[row][col] = newGameState.board[row][col]
+              // clickSnapshot.firstElementChild?.classList.add('question')
+            }
           }
+        } else {
+          // If ‘ ‘ and question, then ‘ ‘ and ‘ ‘ -- do NOT run flag api
+          // (I believe api will make ‘ ‘ null after setGame)
+          // if (
+          //   game.board[row][col] === ' ' &&
+          //   clickSnapshot.firstElementChild?.className === 'question'
+          // ) {
         }
-      } else {
-        // If ‘ ‘ and question, then ‘ ‘ and ‘ ‘ -- do NOT run flag api
-        // (I believe api will make ‘ ‘ null after setGame)
-        // if (
-        //   game.board[row][col] === ' ' &&
-        //   clickSnapshot.firstElementChild?.className === 'question'
-        // ) {
       }
     }
   }
@@ -221,13 +230,14 @@ export function App() {
                   cellRowIndex={rowIndex}
                   cellColIndex={colIndex}
                   cellState={game.state}
-                  recordMove={recordMove}
+                  handleCheckOrFlagCell={handleCheckOrFlagCell}
                 />
               ))
             )}
           </section>
           <section className="difficulty-info-board">
             <span className="difficulty-info-wrapper">
+              {/* Try New Easy Game, New Int Game, New Diff Game */}
               <button
                 className="difficulty-button"
                 onClick={() => handleNewGame(0)}
@@ -257,3 +267,56 @@ export function App() {
 // Right click puts F in cell
 // Right click again put ‘ ‘ in cell
 // Total binary behavior,
+
+// if (event.nativeEvent.button === 0) {
+//   if (
+//     (game.board[row][col] === ' ' &&
+//       clickSnapshot.firstElementChild === null) ||
+//     (game.board[row][col] === ' ' &&
+//       clickSnapshot.firstElementChild?.className === '')
+//   ) {
+//     const url = `https://minesweeper-api.herokuapp.com/games/${game.id}/check`
+
+//     const body = { row, col }
+
+//     const response = await fetch(url, {
+//       method: 'POST',
+//       headers: { 'content-type': 'application/json' },
+//       body: JSON.stringify(body),
+//     })
+
+//     if (response.ok) {
+//       const newGameState = (await response.json()) as Game
+//       setGame(newGameState)
+//     }
+//   }
+// } else if (event.nativeEvent.button === 2) {
+//   if (
+//     (game.board[row][col] === ' ' &&
+//       clickSnapshot.firstElementChild === null) ||
+//     (game.board[row][col] === ' ' &&
+//       clickSnapshot.firstElementChild?.className === '') ||
+//     (game.board[row][col] === 'F' &&
+//       clickSnapshot.firstElementChild?.className === 'flag')
+//   ) {
+//     if (clickSnapshot.firstElementChild?.className === '') {
+//       const url = `https://minesweeper-api.herokuapp.com/games/${game.id}/${action}`
+//     }
+//   } else if (clickSnapshot.firstElementChild?.className === 'flag') {
+//     const url = `https://minesweeper-api.herokuapp.com/games/${game.id}/${action}`
+//   }
+//     const body = { row, col }
+
+//     const response = await fetch(url, {
+//       method: 'POST',
+//       headers: { 'content-type': 'application/json' },
+//       body: JSON.stringify(body),
+//     })
+
+//     if (response.ok) {
+//       const newGameState = (await response.json()) as Game
+//       setGame(newGameState)
+//     }
+//   } else {
+//     console.log("?")
+//   }
