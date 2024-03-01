@@ -18,6 +18,7 @@ html {
 }
 
 body {
+  min-height: 90%;
   background-color: #629ac4;
 }
 
@@ -62,7 +63,6 @@ main {
   border-bottom: solid 3px var(--dark-grey-ish);
   .mine-info-board {
     padding: 8px;
-    padding-top: 16px;
   }
 }
 
@@ -169,6 +169,7 @@ button {
 }
 
 .explosion {
+  height: 100%;
   background-color: red;
 }
 

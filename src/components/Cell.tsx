@@ -5,7 +5,11 @@ type CellProps = {
   cellRowIndex: number
   cellColIndex: number
   cellState: string | null
-  recordMove: (_event: React.MouseEvent, _row: number, _col: number) => void
+  handleClickCell: (
+    _event: React.MouseEvent,
+    _row: number,
+    _col: number
+  ) => void
 }
 
 export function Cell({
@@ -13,41 +17,35 @@ export function Cell({
   cellRowIndex,
   cellColIndex,
   cellState,
-  recordMove,
+  handleClickCell,
 }: CellProps) {
-  async function handleClickCell(
+  async function handleClick(
     event: React.MouseEvent,
     row: number,
     col: number
   ) {
     const clickSnapshot = event.currentTarget
 
-    await recordMove(event, row, col)
+    await handleClickCell(event, row, col)
 
     isFlag(event, clickSnapshot)
-
     isBomb(clickSnapshot)
   }
 
   function isFlag(event: React.MouseEvent, target: any) {
     if (event.nativeEvent.button === 2) {
-      if (target.firstElementChild === null) {
-        if (cell) {
-          return <span className=""></span>
-        }
-      }
-      if (cell === ' ' && target.firstElementChild.className === '') {
+      if (cell === ' ') {
         target.firstElementChild.classList.add('flag')
+        cell = 'F'
         return
       } else if (cell === 'F') {
         target.firstElementChild.classList.remove('flag')
         target.firstElementChild.classList.add('question')
+        cell = 'Q'
         return
-      } else if (
-        cell === ' ' &&
-        target.firstElementChild.className === 'question'
-      ) {
+      } else if (cell === 'Q') {
         target.firstElementChild.classList.remove('question')
+        cell = ' '
         return
       }
     }
@@ -58,15 +56,12 @@ export function Cell({
       return
     }
     if (target.firstElementChild.className === 'mine') {
-      target.classList.add('explosion')
+      target.firstElementChild.classList.add('explosion')
     }
   }
 
   function transformCell(value: string | number) {
     if (cellState !== null) {
-      if (cell === ' ') {
-        return <span className="" />
-      }
       if (cellState === 'win' || cellState === 'lost') {
         if (value === '@') {
           return <span className="flag" />
@@ -116,8 +111,8 @@ export function Cell({
   return (
     <button
       key={cellColIndex}
-      onClick={(e) => handleClickCell(e, cellRowIndex, cellColIndex)}
-      onContextMenu={(e) => handleClickCell(e, cellRowIndex, cellColIndex)}
+      onClick={(e) => handleClick(e, cellRowIndex, cellColIndex)}
+      onContextMenu={(e) => handleClick(e, cellRowIndex, cellColIndex)}
       className={
         cell === ' ' || cell === 'F' || cell === '@' ? undefined : 'revealed'
       }
