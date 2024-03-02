@@ -20,7 +20,7 @@ export function Cell({
   cellState,
   handleCheckOrFlagCell,
 }: CellProps) {
-  async function handleClick(
+  async function handleClickCell(
     event: React.MouseEvent,
     row: number,
     col: number,
