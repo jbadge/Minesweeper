@@ -54,13 +54,20 @@ export function App() {
   ) {
     const clickSnapshot = event.currentTarget
 
+    // Console Check 2
+    console.log(
+      `Before all checks, the cell on row ${row} in column ${col} currently has a value of '${game.board[row][col]}' and the className is currently '${clickSnapshot.firstElementChild?.className}'`
+    )
+
     if (
       game.id === null ||
       game.state === 'won' ||
       game.state === 'lost' ||
       clickSnapshot.className === 'revealed' ||
-      clickSnapshot.firstElementChild?.className === 'flag' ||
-      clickSnapshot.firstElementChild?.className === 'question'
+      (game.board[row][col] === ' ' &&
+        clickSnapshot.firstElementChild?.className === 'flag') ||
+      (game.board[row][col] === ' ' &&
+        clickSnapshot.firstElementChild?.className === 'question')
     ) {
       return
     }
@@ -97,7 +104,7 @@ export function App() {
         const newGameState = (await response.json()) as Game
         setGame(newGameState)
 
-        // Console Check 2
+        // Console Check 3
         console.log(
           `In POST event for 'flag', the cell on row ${row} in column ${col} currently has a value of '${game.board[row][col]}' and the className is currently '${clickSnapshot.firstElementChild?.className}'`
         )
@@ -111,7 +118,7 @@ export function App() {
         (game.board[row][col] === ' ' &&
           clickSnapshot.firstElementChild?.className === 'flag'))
     ) {
-      // Console Check 3
+      // Console Check 4
       console.log(
         `Entering GET event, the cell on row ${row} in column ${col} currently has a value of '${game.board[row][col]}' and the className is currently '${clickSnapshot.firstElementChild?.className}'`
       )
@@ -125,7 +132,8 @@ export function App() {
       if (response.ok) {
         const newGameState = (await response.json()) as Game
         setGame(newGameState)
-        // Console Check 4
+
+        // Console Check 5
         console.log(
           `Leaving GET event, the cell on row ${row} in column ${col} currently has a value of '${game.board[row][col]}' and the className is currently '${clickSnapshot.firstElementChild?.className}'`
         )

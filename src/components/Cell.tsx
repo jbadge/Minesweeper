@@ -38,7 +38,7 @@ export function Cell({
     isFlag(event, clickSnapshot)
     isBomb(clickSnapshot)
 
-    // Console Check 5
+    // Console Check 6
     console.log(
       `EOL - The cell on row ${row} in column ${col} has a className is '${clickSnapshot.firstElementChild?.className}'`
     )
