@@ -1,4 +1,6 @@
 import React from 'react'
+// , { useState }
+// import classnames from 'classnames'
 
 type CellProps = {
   cell: string
@@ -20,27 +22,46 @@ export function Cell({
   cellState,
   handleCheckOrFlagCell,
 }: CellProps) {
-  async function handleClick(
+  async function handleClickCell(
     event: React.MouseEvent,
     row: number,
     col: number,
     action: string
   ) {
-    const clickSnapshot = event.currentTarget
+    // const button = document.getElementById('myButton')
+    // button?.setAttribute('disabled', '')
+    // console.log(button)
+    // sleep(2000).then(() => {console.log(event)})
+    // function sleep(ms: number) {
+    //   return new Promise((resolve) => setTimeout(resolve, ms))
+    // }
 
-    // Console Check 1
+    const clickSnapshot = event.currentTarget
+    clickSnapshot?.setAttribute('disabled', '')
+
     console.log(
-      `BOL - The cell on row ${row} in column ${col} has value '${cell}' and the className is '${clickSnapshot.firstElementChild?.className}'`
+      `BOL - The cell on row ${row + 1} in column ${
+        col + 1
+      } has value '${cell}' and the className is '${
+        clickSnapshot.firstElementChild?.className
+      }'`
     )
 
     await handleCheckOrFlagCell(event, row, col, action)
 
     isFlag(event, clickSnapshot)
+
     isBomb(clickSnapshot)
 
-    // Console Check 5
+    // button?.removeAttribute('disabled')
+    clickSnapshot?.removeAttribute('disabled')
+
     console.log(
-      `EOL - The cell on row ${row} in column ${col} has a className is '${clickSnapshot.firstElementChild?.className}'`
+      `EOL - The cell on row ${row + 1} in column ${
+        col + 1
+      } has value '${cell}' and the className is '${
+        clickSnapshot.firstElementChild?.className
+      }'`
     )
   }
 
@@ -53,16 +74,13 @@ export function Cell({
       }
       if (cell === ' ' && target.firstElementChild.className === '') {
         target.firstElementChild.classList.add('flag')
-        cell = 'F'
         return
       } else if (target.firstElementChild.className === 'flag') {
         target.firstElementChild.classList.remove('flag')
         target.firstElementChild.classList.add('question')
-        cell = 'Q'
         return
       } else if (target.firstElementChild.className === 'question') {
         target.firstElementChild.classList.remove('question')
-        cell = ' '
         return
       }
     }
@@ -73,7 +91,7 @@ export function Cell({
       return
     }
     if (target.firstElementChild.className === 'mine') {
-      target.firstElementChild.classList.add('explosion')
+      target.classList.add('explosion')
     }
   }
 
@@ -131,9 +149,6 @@ export function Cell({
   return (
     <button
       key={cellColIndex}
-      className={
-        cell === ' ' || cell === 'F' || cell === '@' ? undefined : 'revealed'
-      }
       onClick={(e) => {
         e.preventDefault()
         handleClickCell(e, cellRowIndex, cellColIndex, 'check')
@@ -142,6 +157,9 @@ export function Cell({
         e.preventDefault()
         handleClickCell(e, cellRowIndex, cellColIndex, 'flag')
       }}
+      className={
+        cell === ' ' || cell === 'F' || cell === '@' ? undefined : 'revealed'
+      }
     >
       {transformCellValue(cell)}
     </button>

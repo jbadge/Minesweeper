@@ -46,13 +46,12 @@ export function App() {
 
   const [difficulty, setDifficulty] = useState<Difficulty>(0)
 
-  async function handleClickCell(
+  async function handleCheckOrFlagCell(
     event: React.MouseEvent,
     row: number,
-    col: number
+    col: number,
+    action: string
   ) {
-    event.preventDefault()
-
     const clickSnapshot = event.currentTarget
 
     if (
@@ -65,8 +64,27 @@ export function App() {
     ) {
       return
     }
-    if (event.nativeEvent.button === 0) {
-      const url = `https://minesweeper-api.herokuapp.com/games/${game.id}/check`
+
+    if (
+      // Left click events
+      (event.nativeEvent.button === 0 &&
+        ((game.board[row][col] === ' ' &&
+          clickSnapshot.firstElementChild === null) ||
+          (game.board[row][col] === ' ' &&
+            clickSnapshot.firstElementChild?.className === ''))) ||
+      // Right click events
+      (event.nativeEvent.button === 2 &&
+        ((game.board[row][col] === ' ' &&
+          clickSnapshot.firstElementChild === null) ||
+          (game.board[row][col] === ' ' &&
+            clickSnapshot.firstElementChild?.className === '') ||
+          (game.board[row][col] === 'F' &&
+            clickSnapshot.firstElementChild?.className === '') ||
+          (game.board[row][col] === 'F' &&
+            clickSnapshot.firstElementChild?.className === 'question')))
+    ) {
+      const url = `https://minesweeper-api.herokuapp.com/games/${game.id}/${action}`
+
       const body = { row, col }
 
       const response = await fetch(url, {
@@ -78,20 +96,39 @@ export function App() {
       if (response.ok) {
         const newGameState = (await response.json()) as Game
         setGame(newGameState)
+
+        // Console Check 2
+        console.log(
+          `In POST event for 'flag', the cell on row ${row} in column ${col} currently has a value of '${game.board[row][col]}' and the className is currently '${clickSnapshot.firstElementChild?.className}'`
+        )
       }
-    } else if (event.nativeEvent.button === 2 && game.board[row][col] !== 'F') {
-      const url = `https://minesweeper-api.herokuapp.com/games/${game.id}/flag`
-      const body = { row, col }
+    } else if (
+      event.nativeEvent.button === 2 &&
+      ((game.board[row][col] === 'F' &&
+        clickSnapshot.firstElementChild?.className === 'flag') ||
+        (game.board[row][col] === ' ' &&
+          clickSnapshot.firstElementChild?.className === 'question') ||
+        (game.board[row][col] === ' ' &&
+          clickSnapshot.firstElementChild?.className === 'flag'))
+    ) {
+      // Console Check 3
+      console.log(
+        `Entering GET event, the cell on row ${row} in column ${col} currently has a value of '${game.board[row][col]}' and the className is currently '${clickSnapshot.firstElementChild?.className}'`
+      )
+      const url = `https://minesweeper-api.herokuapp.com/games/${game.id}`
 
       const response = await fetch(url, {
-        method: 'POST',
+        method: 'GET',
         headers: { 'content-type': 'application/json' },
-        body: JSON.stringify(body),
       })
 
       if (response.ok) {
         const newGameState = (await response.json()) as Game
         setGame(newGameState)
+        // Console Check 4
+        console.log(
+          `Leaving GET event, the cell on row ${row} in column ${col} currently has a value of '${game.board[row][col]}' and the className is currently '${clickSnapshot.firstElementChild?.className}'`
+        )
       }
     }
   }
@@ -177,7 +214,7 @@ export function App() {
                   cellRowIndex={rowIndex}
                   cellColIndex={colIndex}
                   cellState={game.state}
-                  handleClickCell={handleClickCell}
+                  handleCheckOrFlagCell={handleCheckOrFlagCell}
                 />
               ))
             )}
