@@ -142,6 +142,13 @@ export function App() {
   }
 
   async function handleNewGame(newGameDifficulty: Difficulty) {
+    const buttons = document.querySelectorAll('button')
+    buttons.forEach((button) => {
+      if (!button.classList.contains('difficulty-button')) {
+        button.removeAttribute('disabled')
+      }
+    })
+
     const diff = { difficulty: newGameDifficulty }
 
     const response = await fetch(
@@ -206,11 +213,33 @@ export function App() {
       <h2>{checkState()}</h2>
 
       <main>
+        <section className="difficulty-info-board">
+          <span className="difficulty-info-wrapper">
+            <button
+              className="difficulty-button"
+              onClick={() => handleNewGame(0)}
+            >
+              <h3>New Easy Game</h3>
+            </button>
+            <button
+              className="difficulty-button"
+              onClick={() => handleNewGame(1)}
+            >
+              <h3>New Intermediate Game</h3>
+            </button>
+            <button
+              className="difficulty-button"
+              onClick={() => handleNewGame(2)}
+            >
+              <h3>New Hard Game</h3>
+            </button>
+          </span>
+        </section>
         <section className={`game-difficulty-${difficulty}`}>
           <section className="mine-info-board">
             <div className="mine-info-wrapper">
-              <span className="info-text">Mines remaining: </span>
-              <span className="info-number">{minesLeft()}</span>
+              <div className="info-text">Mines remaining: </div>
+              <div className="info-number">{minesLeft()}</div>
             </div>
           </section>
           <section id="game-board" className={classes}>
@@ -226,28 +255,6 @@ export function App() {
                 />
               ))
             )}
-          </section>
-          <section className="difficulty-info-board">
-            <span className="difficulty-info-wrapper">
-              <button
-                className="difficulty-button"
-                onClick={() => handleNewGame(0)}
-              >
-                <h3>Easy</h3>
-              </button>
-              <button
-                className="difficulty-button"
-                onClick={() => handleNewGame(1)}
-              >
-                <h3>Medium</h3>
-              </button>
-              <button
-                className="difficulty-button"
-                onClick={() => handleNewGame(2)}
-              >
-                <h3>Hard</h3>
-              </button>
-            </span>
           </section>
         </section>
       </main>

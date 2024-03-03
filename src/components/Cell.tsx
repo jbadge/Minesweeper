@@ -36,6 +36,7 @@ export function Cell({
     await handleCheckOrFlagCell(event, row, col, action)
 
     isFlag(event, clickSnapshot)
+
     isBomb(clickSnapshot)
 
     // Console Check 6
@@ -53,16 +54,13 @@ export function Cell({
       }
       if (cell === ' ' && target.firstElementChild.className === '') {
         target.firstElementChild.classList.add('flag')
-        cell = 'F'
         return
       } else if (target.firstElementChild.className === 'flag') {
         target.firstElementChild.classList.remove('flag')
         target.firstElementChild.classList.add('question')
-        cell = 'Q'
         return
       } else if (target.firstElementChild.className === 'question') {
         target.firstElementChild.classList.remove('question')
-        cell = ' '
         return
       }
     }
@@ -73,7 +71,15 @@ export function Cell({
       return
     }
     if (target.firstElementChild.className === 'mine') {
-      target.firstElementChild.classList.add('explosion')
+      target.classList.add('explosion')
+      const buttons = document.querySelectorAll('button')
+      buttons.forEach((button) => {
+        if (!button.classList.contains('difficulty-button')) {
+          button.setAttribute('disabled', 'true')
+          // button.parentElement?.classList.add('no-click')
+          // button.style.pointerEvents = 'none'
+        }
+      })
     }
   }
 
@@ -84,14 +90,14 @@ export function Cell({
       }
       if (cellState === 'win' || cellState === 'lost') {
         if (value === '@') {
-          return <span className="flag" />
+          return <i className="flag" />
         }
         if (value === 'F') {
           return <i className="not-a-mine" />
         }
       } else {
         if (value === 'F') {
-          return <span className="" />
+          return <i className="" />
         }
       }
       if (value === '*') {
@@ -101,28 +107,28 @@ export function Cell({
         return ''
       }
       if (value === 1) {
-        return <div className="number num1">1</div>
+        return <div className="cell-number cell-num1">1</div>
       }
       if (value === 2) {
-        return <div className="number num2">2</div>
+        return <div className="cell-number cell-num2">2</div>
       }
       if (value === 3) {
-        return <div className="number num3">3</div>
+        return <div className="cell-number cell-num3">3</div>
       }
       if (value === 4) {
-        return <div className="number num4">4</div>
+        return <div className="cell-number cell-num4">4</div>
       }
       if (value === 5) {
-        return <div className="number num5">5</div>
+        return <div className="cell-number cell-num5">5</div>
       }
       if (value === 6) {
-        return <div className="number num6">6</div>
+        return <div className="cell-number cell-num6">6</div>
       }
       if (value === 7) {
-        return <div className="number num7">7</div>
+        return <div className="cell-number cell-num7">7</div>
       }
       if (value === 8) {
-        return <div className="number num8">8</div>
+        return <div className="cell-number cell-num8">8</div>
       }
       return value
     }

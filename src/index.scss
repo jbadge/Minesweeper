@@ -44,151 +44,308 @@ h3 {
 
 main {
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
+  .difficulty-info-board {
+    margin-bottom: 4rem;
+    border-top: solid 3px var(--white-ish);
+    border-left: solid 3px var(--white-ish);
+    border-right: solid 3px var(--dark-grey-ish);
+    border-bottom: solid 3px var(--dark-grey-ish);
+  }
+
   section {
-    &.game-over button {
-      cursor: not-allowed;
+    &.difficulty-info-board {
+      margin-bottom: 4rem;
+      border-top: solid 3px var(--white-ish);
+      border-left: solid 3px var(--white-ish);
+      border-right: solid 3px var(--dark-grey-ish);
+      border-bottom: solid 3px var(--dark-grey-ish);
+    }
+    [class$='-info-board'] {
+      margin-top: 10px;
+      margin-bottom: 10px;
+      border-radius: 2px;
+      background-color: var(--light-grey-ish);
+    }
+    [class$='-info-wrapper'] {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      .info-text {
+        font-size: 1.2rem;
+      }
+      .info-number {
+        position: relative;
+        padding: 6px;
+        margin: 0px 3px;
+        font-size: 1.4rem;
+        border-radius: 2px;
+        background-color: var(--light-grey-ish);
+        align-self: center;
+      }
+    }
+    &[class^='game-difficulty-'] {
+      padding: 8px;
+      padding-top: 14px;
+      background-color: var(--light-grey-ish);
+      border-top: solid 3px var(--white-ish);
+      border-left: solid 3px var(--white-ish);
+      border-right: solid 3px var(--dark-grey-ish);
+      border-bottom: solid 3px var(--dark-grey-ish);
+      .mine-info-board {
+        padding: 8px;
+        border-right: solid 3px var(--white-ish);
+        border-bottom: solid 3px var(--white-ish);
+        border-top: solid 3px var(--dark-grey-ish);
+        border-left: solid 3px var(--dark-grey-ish);
+      }
+      #game-board {
+        display: grid;
+        align-self: center;
+        justify-self: center;
+        border-radius: 3px;
+        background-color: var(--light-grey-ish);
+        border-right: solid 3px var(--white-ish);
+        border-bottom: solid 3px var(--white-ish);
+        border-top: solid 3px var(--dark-grey-ish);
+        border-left: solid 3px var(--dark-grey-ish);
+        &.easy {
+          grid-template: repeat(8, minmax(2rem, 1fr)) / repeat(
+              8,
+              minmax(2rem, 1fr)
+            );
+        }
+        &.medium {
+          grid-template: repeat(16, minmax(2rem, 1fr)) / repeat(
+              16,
+              minmax(2rem, 1fr)
+            );
+        }
+
+        &.hard {
+          grid-template: repeat(24, minmax(2rem, 1fr)) / repeat(
+              24,
+              minmax(2rem, 1fr)
+            );
+        }
+        &.game-over button {
+          cursor: not-allowed;
+        }
+      }
+    }
+    button {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      line-height: 16px;
+      background-color: var(--light-grey-ish);
+      border-top: solid 3px var(--white-ish);
+      border-left: solid 3px var(--white-ish);
+      border-bottom: solid 3px var(--medium-grey-ish);
+      border-right: solid 3px var(--medium-grey-ish);
+      &:disabled {
+        opacity: 50%;
+      }
+      &.revealed {
+        cursor: not-allowed;
+        border-right: none;
+        border-bottom: none;
+        border-top: solid 1px var(--medium-grey-ish);
+        border-left: solid 1px var(--medium-grey-ish);
+        .cell-number {
+          font-size: 1.5rem;
+          font-family: 'Arial Black', Arial, sans-serif;
+          &.cell-num1 {
+            color: #00f;
+          }
+          &.cell-num2 {
+            color: #007b00;
+          }
+          &.cell-num3 {
+            color: red;
+          }
+          &.cell-num4 {
+            color: #00007b;
+          }
+          &.cell-num5 {
+            color: #7b0000;
+          }
+          &.cell-num6 {
+            color: #006968;
+          }
+          &.cell-num7 {
+            color: #007b7b;
+          }
+          &.cell-num8 {
+            color: var(--medium-grey-ish);
+          }
+        }
+      }
+      &.explosion {
+        background-color: red;
+      }
+
+      .no-click {
+        pointer-events: none;
+      }
+
+      .flag {
+        width: 80%;
+        content: url('https://cardgames.io/minesweeper/images/flag.svg');
+      }
+
+      .mine {
+        width: 80%;
+        content: url('https://cardgames.io/minesweeper/images/mine.svg');
+      }
+
+      .not-a-mine {
+        width: 80%;
+        content: url('https://cardgames.io/minesweeper/images/minestrike.svg');
+      }
+
+      .question {
+        width: 80%;
+        content: url('https://cardgames.io/minesweeper/images/questionmark.svg');
+      }
     }
   }
 }
+// [class^='game-difficulty-'] {
+//   padding: 8px;
+//   padding-top: 14px;
+//   background-color: var(--light-grey-ish);
+//   border-top: solid 3px var(--white-ish);
+//   border-left: solid 3px var(--white-ish);
+//   border-right: solid 3px var(--dark-grey-ish);
+//   border-bottom: solid 3px var(--dark-grey-ish);
+//   .mine-info-board {
+//     padding: 8px;
+//     border-right: solid 3px var(--white-ish);
+//     border-bottom: solid 3px var(--white-ish);
+//     border-top: solid 3px var(--dark-grey-ish);
+//     border-left: solid 3px var(--dark-grey-ish);
+//   }
+// }
 
-[class^='game-difficulty-'] {
-  padding: 8px;
-  padding-top: 14px;
-  background-color: var(--light-grey-ish);
-  border-top: solid 3px var(--white-ish);
-  border-left: solid 3px var(--white-ish);
-  border-right: solid 3px var(--dark-grey-ish);
-  border-bottom: solid 3px var(--dark-grey-ish);
-  .mine-info-board {
-    padding: 8px;
-  }
-}
+// #game-board {
+//   display: grid;
+//   align-self: center;
+//   justify-self: center;
+//   border-radius: 3px;
+//   background-color: var(--light-grey-ish);
+//   border-right: solid 3px var(--white-ish);
+//   border-bottom: solid 3px var(--white-ish);
+//   border-top: solid 3px var(--dark-grey-ish);
+//   border-left: solid 3px var(--dark-grey-ish);
+//   &.easy {
+//     grid-template: repeat(8, minmax(2rem, 1fr)) / repeat(8, minmax(2rem, 1fr));
+//   }
+//   &.medium {
+//     grid-template: repeat(16, minmax(2rem, 1fr)) / repeat(16, minmax(2rem, 1fr));
+//   }
 
-#game-board {
-  display: grid;
-  align-self: center;
-  justify-self: center;
-  border-radius: 3px;
-  background-color: var(--light-grey-ish);
-  border-right: solid 3px var(--white-ish);
-  border-bottom: solid 3px var(--white-ish);
-  border-top: solid 3px var(--dark-grey-ish);
-  border-left: solid 3px var(--dark-grey-ish);
-  &.easy {
-    grid-template: repeat(8, minmax(2rem, 1fr)) / repeat(8, minmax(2rem, 1fr));
-  }
-  &.medium {
-    grid-template: repeat(16, minmax(2rem, 1fr)) / repeat(16, minmax(2rem, 1fr));
-  }
+//   &.hard {
+//     grid-template: repeat(24, minmax(2rem, 1fr)) / repeat(24, minmax(2rem, 1fr));
+//   }
+// }
 
-  &.hard {
-    grid-template: repeat(24, minmax(2rem, 1fr)) / repeat(24, minmax(2rem, 1fr));
-  }
-}
+// [class$='-info-board'] {
+//   margin-top: 10px;
+//   margin-bottom: 10px;
+//   border-radius: 2px;
+//   background-color: var(--light-grey-ish);
+// }
 
-[class$='-info-board'] {
-  margin-top: 10px;
-  margin-bottom: 10px;
-  border-radius: 2px;
-  background-color: var(--light-grey-ish);
-  border-right: solid 3px var(--white-ish);
-  border-bottom: solid 3px var(--white-ish);
-  border-top: solid 3px var(--dark-grey-ish);
-  border-left: solid 3px var(--dark-grey-ish);
-}
+// [class$='-info-wrapper'] {
+//   display: flex;
+//   align-items: center;
+//   justify-content: center;
+//   .info-text {
+//     font-size: 1.2rem;
+//   }
+//   .info-number {
+//     position: relative;
+//     padding: 6px;
+//     margin: 0px 3px;
+//     font-size: 1.4rem;
+//     border-radius: 2px;
+//     background-color: var(--light-grey-ish);
+//     align-self: center;
+//   }
+// }
 
-[class$='-info-wrapper'] {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  .info-text {
-    font-size: 1.2rem;
-  }
-  .info-number {
-    position: relative;
-    padding: 6px;
-    margin: 0px 3px;
-    font-size: 1.4rem;
-    border-radius: 2px;
-    background-color: var(--light-grey-ish);
-    align-self: center;
-  }
-}
+// button {
+//   display: flex;
+//   align-items: center;
+//   justify-content: center;
+//   line-height: 16px;
+//   background-color: var(--light-grey-ish);
+//   border-top: solid 3px var(--white-ish);
+//   border-left: solid 3px var(--white-ish);
+//   border-bottom: solid 3px var(--medium-grey-ish);
+//   border-right: solid 3px var(--medium-grey-ish);
+//   &.revealed {
+//     cursor: not-allowed;
+//     border-right: none;
+//     border-bottom: none;
+//     border-top: solid 1px var(--medium-grey-ish);
+//     border-left: solid 1px var(--medium-grey-ish);
+//   }
+// }
 
-button {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  line-height: 16px;
-  background-color: var(--light-grey-ish);
-  border-top: solid 3px var(--white-ish);
-  border-left: solid 3px var(--white-ish);
-  border-bottom: solid 3px var(--medium-grey-ish);
-  border-right: solid 3px var(--medium-grey-ish);
-  &.difficulty-button {
-    width: 100%;
-  }
-  &.revealed {
-    cursor: not-allowed;
-    border-right: none;
-    border-bottom: none;
-    border-top: solid 1px var(--medium-grey-ish);
-    border-left: solid 1px var(--medium-grey-ish);
-  }
-}
+// .cell-number {
+//   font-size: 1.5rem;
+//   font-family: 'Arial Black', Arial, sans-serif;
+//   &.cell-num1 {
+//     color: #00f;
+//   }
+//   &.cell-num2 {
+//     color: #007b00;
+//   }
+//   &.cell-num3 {
+//     color: red;
+//   }
+//   &.cell-num4 {
+//     color: #00007b;
+//   }
+//   &.cell-num5 {
+//     color: #7b0000;
+//   }
+//   &.cell-num6 {
+//     color: #006968;
+//   }
+//   &.cell-num7 {
+//     color: #007b7b;
+//   }
+//   &.cell-num8 {
+//     color: var(--medium-grey-ish);
+//   }
+// }
 
-.number {
-  font-size: 1.5rem;
-  font-family: 'Arial Black', Arial, sans-serif;
-  &.num1 {
-    color: #00f;
-  }
-  &.num2 {
-    color: #007b00;
-  }
-  &.num3 {
-    color: red;
-  }
-  &.num4 {
-    color: #00007b;
-  }
-  &.num5 {
-    color: #7b0000;
-  }
-  &.num6 {
-    color: #006968;
-  }
-  &.num7 {
-    color: #007b7b;
-  }
-  &.num8 {
-    color: var(--medium-grey-ish);
-  }
-}
+// .explosion {
+//   height: 100%;
+//   background-color: red;
+// }
 
-.explosion {
-  height: 100%;
-  background-color: red;
-}
+// .flag {
+//   width: 80%;
+//   content: url('https://cardgames.io/minesweeper/images/flag.svg');
+// }
 
-.flag {
-  width: 80%;
-  content: url('https://cardgames.io/minesweeper/images/flag.svg');
-}
+// .mine {
+//   width: 80%;
+//   content: url('https://cardgames.io/minesweeper/images/mine.svg');
+// }
 
-.mine {
-  width: 80%;
-  content: url('https://cardgames.io/minesweeper/images/mine.svg');
-}
+// .not-a-mine {
+//   width: 80%;
+//   content: url('https://cardgames.io/minesweeper/images/minestrike.svg');
+// }
 
-.not-a-mine {
-  width: 80%;
-  content: url('https://cardgames.io/minesweeper/images/minestrike.svg');
-}
-
-.question {
-  width: 80%;
-  content: url('https://cardgames.io/minesweeper/images/questionmark.svg');
-}
+// .question {
+//   width: 80%;
+//   content: url('https://cardgames.io/minesweeper/images/questionmark.svg');
+// }

@@ -95,6 +95,27 @@ export function Cell({
     }
   }
 
+  // may need to lose this or tweak it
+  // function transformCellClassName(value: string | number) {
+  //   switch (value) {
+  //     case 'F':
+  //       return 'flag' //(or 'cell-flag'?)
+  //     case '*':
+  //       return 'mine'
+  //     case '_':
+  //       return 'revealed'
+  //     case ' ':
+  //       return undefined
+  //     default:
+  //       return `cell-number cell-num${value}`
+  //   }
+  // }
+  // if ([1, 2, 3, 4, 5, 6, 7, 8].includes(Number(value))) {
+  //   return `number num${value}`
+  // }
+  // // return value
+  // return undefined
+
   function transformCellValue(value: string | number) {
     if (cellState !== null) {
       if (cell === ' ') {
