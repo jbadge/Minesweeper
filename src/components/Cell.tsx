@@ -54,13 +54,16 @@ export function Cell({
       }
       if (cell === ' ' && target.firstElementChild.className === '') {
         target.firstElementChild.classList.add('flag')
+        // cell = 'F'
         return
       } else if (target.firstElementChild.className === 'flag') {
         target.firstElementChild.classList.remove('flag')
         target.firstElementChild.classList.add('question')
+        // cell = 'Q'
         return
       } else if (target.firstElementChild.className === 'question') {
         target.firstElementChild.classList.remove('question')
+        // cell = ' '
         return
       }
     }
