@@ -76,8 +76,8 @@ export function Cell({
       buttons.forEach((button) => {
         if (!button.classList.contains('difficulty-button')) {
           button.setAttribute('disabled', 'true')
-          // button.parentElement?.classList.add('no-click')
-          // button.style.pointerEvents = 'none'
+          button.parentElement?.classList.add('no-click')
+          button.style.pointerEvents = 'none'
         }
       })
     }
