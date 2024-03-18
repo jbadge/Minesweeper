@@ -17,13 +17,13 @@ type Square =
   | '8'
 type Row = [Square, Square, Square, Square, Square, Square, Square, Square]
 type Board = [Row, Row, Row, Row, Row, Row, Row, Row]
-type Difficulty = 0 | 1 | 2
+type GameDifficulty = 0 | 1 | 2
 type Game = {
   id: null | number
   board: Board
   state: null | string
   mines: null | number
-  difficulty: Difficulty
+  difficulty: GameDifficulty
 }
 
 export function App() {
@@ -44,13 +44,37 @@ export function App() {
     difficulty: 0,
   })
 
-  const [difficulty, setDifficulty] = useState<Difficulty>(0)
+  const [difficulty, setDifficulty] = useState<GameDifficulty>(0)
+
+  // useEffect(() => {
+  //   handleNewGame(0)
+  // }, [])
+
+  useEffect(() => {
+    async function loadExistingGame() {
+      const existingGameId = localStorage.getItem('game-id')
+      const existingDifficulty = localStorage.getItem('game-difficulty')
+
+      if (existingGameId && existingDifficulty) {
+        const response = await fetch(
+          `https://minesweeper-api.herokuapp.com/games/${existingGameId}`
+        )
+
+        if (response.ok) {
+          const newGameState = await response.json()
+          setGame(newGameState)
+          setDifficulty(Number(existingDifficulty) as GameDifficulty)
+        }
+      }
+    }
+    loadExistingGame()
+  }, [])
 
   async function handleCheckOrFlagCell(
     event: React.MouseEvent,
     row: number,
     col: number,
-    action: string
+    action: 'check' | 'flag'
   ) {
     const clickSnapshot = event.currentTarget
 
@@ -141,7 +165,7 @@ export function App() {
     }
   }
 
-  async function handleNewGame(newGameDifficulty: Difficulty) {
+  async function handleNewGame(newGameDifficulty: GameDifficulty) {
     const buttons = document.querySelectorAll('button')
     buttons.forEach((button) => {
       if (!button.classList.contains('difficulty-button')) {
@@ -161,15 +185,13 @@ export function App() {
     )
 
     if (response.ok) {
-      const newGameState = (await response.json()) as Game
+      const newGameState = await response.json()
       setDifficulty(newGameDifficulty)
       setGame(newGameState)
+      localStorage.setItem('game-id', newGameState.id)
+      localStorage.setItem('game-difficulty', String(newGameDifficulty))
     }
   }
-
-  useEffect(() => {
-    handleNewGame(0)
-  }, [])
 
   function checkState() {
     if (game.state === 'new') {

@@ -1,6 +1,6 @@
 :root {
   --header-font-size: 3rem;
-  --header-font-size: 2rem;
+  // --header-font-size: 2rem;
   --white-ish: #fff;
   --light-grey-ish: #bdbdbd;
   --medium-grey-ish: #7b7b7b;
@@ -47,14 +47,6 @@ main {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  .difficulty-info-board {
-    margin-bottom: 4rem;
-    border-top: solid 3px var(--white-ish);
-    border-left: solid 3px var(--white-ish);
-    border-right: solid 3px var(--dark-grey-ish);
-    border-bottom: solid 3px var(--dark-grey-ish);
-  }
-
   section {
     &.difficulty-info-board {
       margin-bottom: 4rem;

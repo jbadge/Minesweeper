@@ -9,7 +9,7 @@ type CellProps = {
     _event: React.MouseEvent,
     _row: number,
     _col: number,
-    _action: string
+    _action: 'check' | 'flag'
   ) => void
 }
 
@@ -24,7 +24,7 @@ export function Cell({
     event: React.MouseEvent,
     row: number,
     col: number,
-    action: string
+    action: 'check' | 'flag'
   ) {
     const clickSnapshot = event.currentTarget
 
@@ -38,6 +38,7 @@ export function Cell({
     isFlag(event, clickSnapshot)
 
     isBomb(clickSnapshot)
+    clickSnapshot?.removeAttribute('disabled')
 
     // Console Check 6
     console.log(
@@ -79,8 +80,8 @@ export function Cell({
       buttons.forEach((button) => {
         if (!button.classList.contains('difficulty-button')) {
           button.setAttribute('disabled', 'true')
-          button.parentElement?.classList.add('no-click')
-          button.style.pointerEvents = 'none'
+          // button.parentElement?.classList.add('no-click')
+          // button.style.pointerEvents = 'none'
         }
       })
     }
