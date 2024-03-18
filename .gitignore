@@ -5,6 +5,3 @@ dist-ssr
 *.local
 .netlify
 src/scratchpad.md
-src/App.bak.tsx
-src/Cell.bak.tsx
-src/index.bak.scss
